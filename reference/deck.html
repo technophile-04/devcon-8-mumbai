@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>BuidlGuidl Devcon 8 slide kit, reference deck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ---- tokens (same values as SKILL.md) ---- */
+@font-face {
+  font-family: "PP Neue Machina";
+  src: url("../fonts/PPNeueMachina-InktrapSemibold.woff2") format("woff2"),
+       url("../fonts/PPNeueMachina-InktrapSemibold.otf") format("opentype");
+  font-weight: 600; font-style: normal; font-display: block;
+}
+:root {
+  --ink: #182232; --paper: #FFFCFC; --grey: #F4F4F4; --lavender: #D8DCFF; --peach: #FFD4B5;
+  --periwinkle: #808CFF; --periwinkle-light: #9FA9FF; --orange: #FF6E1D; --lime: #B5DC3A; --pale-lime: #EAFFA9;
+  --head: "PP Neue Machina", "Space Grotesk", sans-serif;   /* headings; fallback is Space Grotesk Bold */
+  --body: "Space Grotesk", sans-serif;
+  --mono: "Space Mono", monospace;
+  --radius: 32px;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: #cfd2da; }
+body { font-family: var(--body); color: var(--ink); -webkit-font-smoothing: antialiased; }
+body.single { background: transparent; }
+.deck { display: flex; flex-direction: column; gap: 24px; padding: 24px; }
+body.single .deck { gap: 0; padding: 0; }
+body.single .slide { display: none; }
+body.single .slide.show { display: block; }
+
+/* ---- slide frame: 1920x1080, margins 120 x 96 ---- */
+.slide {
+  position: relative; width: 1920px; height: 1080px; overflow: hidden; flex: none;
+  background-size: 1920px 1080px; background-repeat: no-repeat;
+}
+.slide.cover { background-image: url("../backgrounds/cover.png"); }
+.slide.section { background-image: url("../backgrounds/section.png"); }
+.slide.content { background-image: url("../backgrounds/content.png"); }
+.slide.dark { background-image: url("../backgrounds/content-dark.png"); color: var(--paper); }
+.slide > * { position: absolute; margin: 0; }
+.slide.heading-only > * { position: absolute; }
+
+/* ---- type scale (px on the 1920 canvas) ---- */
+.display { font: 600 120px/1.05 var(--head); letter-spacing: -0.01em; }
+.cover-title { font: 600 96px/1.05 var(--head); letter-spacing: -0.01em; }
+.heading { font: 600 80px/1.1 var(--head); letter-spacing: -0.01em; }
+.body { font: 400 48px/1.3 var(--body); }
+.body.medium, .medium { font-weight: 500; }
+.label { font: 500 36px/1.3 var(--body); }
+.code { font: 400 44px/1.45 var(--mono); white-space: pre; }
+mark { background: var(--lime); color: var(--ink); padding: 0.02em 0.16em; margin: 0 -0.08em; border-radius: 0.14em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+
+/* ---- cover slots: title, closing, up next (slides 1, 10, 11) ---- */
+.cover .eyebrow { left: 120px; top: 216px; width: 1000px; }
+.cover .cover-title { left: 120px; top: 280px; width: 840px; }
+.cover .name  { left: 120px; top: 624px; width: 900px; }
+.cover .role  { left: 120px; top: 688px; width: 900px; }
+/* name/role sit as a pair; closing uses name + handles + link */
+.cover.closing .name { top: 440px; }
+.cover .handles { left: 120px; top: 504px; width: 880px; }
+.cover .link { left: 120px; top: 584px; width: 880px; }
+.cover .meta { left: 120px; top: 688px; width: 900px; }
+
+/* ---- content slots ---- */
+.content .heading, .dark .heading { left: 120px; top: 96px; width: 1680px; }
+.content .body-block { left: 120px; top: 320px; width: 1680px; }
+.body-block ul { margin: 0; padding: 0; list-style: none; }
+.body-block li { position: relative; padding-left: 64px; margin-bottom: 32px; }
+.body-block li::before { content: ""; position: absolute; left: 8px; top: 0.52em; width: 18px; height: 18px; border-radius: 50%; background: var(--periwinkle); }
+
+/* statement (slide 2) */
+.statement .display { left: 120px; top: 300px; width: 1680px; }
+.statement .sub { left: 120px; top: 760px; width: 1680px; }
+
+/* image panel (slide 4) */
+.panel { left: 120px; top: 232px; width: 1680px; height: 752px; background: var(--lavender); border-radius: var(--radius); overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.panel img { display: block; border-radius: 24px; }
+
+/* three columns (slide 5) */
+.cols { left: 120px; top: 260px; width: 1680px; display: flex; gap: 48px; align-items: stretch; }
+.card { flex: 1; background: var(--grey); border-radius: var(--radius); padding: 48px; display: flex; flex-direction: column; gap: 24px; }
+.pill { display: inline-block; align-self: flex-start; font: 500 36px/1 var(--body); padding: 14px 28px; border-radius: 999px; color: var(--ink); }
+.pill.periwinkle { background: var(--periwinkle); } .pill.orange { background: var(--orange); } .pill.lime { background: var(--lime); }
+.card h3 { margin: 8px 0 0; font: 500 48px/1.2 var(--body); }
+.card p { margin: 0; font: 400 48px/1.3 var(--body); }
+
+/* section divider (slide 6) */
+.section .part { left: 120px; top: 392px; width: 1000px; }
+.section .display { left: 120px; top: 456px; width: 1000px; }
+
+/* code (slide 7) */
+.dark .term-label { left: 120px; top: 256px; color: var(--periwinkle-light); }
+.dark .code { left: 120px; top: 320px; width: 1680px; }
+.dark .code .prompt { color: var(--periwinkle-light); }
+.dark .code .dim { color: var(--periwinkle-light); }
+
+/* quote (slide 8) */
+.quote .q { left: 120px; top: 240px; width: 1560px; font: 600 80px/1.15 var(--head); letter-spacing: -0.01em; }
+.quote .q::before { content: "\201C"; position: absolute; left: -0.5em; top: 0; }
+.quote .bar { left: 120px; top: 600px; width: 60px; height: 6px; background: var(--periwinkle); }
+.quote .author { left: 120px; top: 640px; width: 1200px; }
+.quote .source { left: 120px; top: 704px; width: 1200px; }
+
+/* diagram (slide 9) */
+.diagram .flow { left: 120px; top: 400px; width: 1680px; height: 480px; }
+.flow .box { position: absolute; top: 0; width: 520px; height: 260px; border-radius: var(--radius); padding: 40px; display: flex; align-items: center; font: 500 48px/1.2 var(--body); }
+.flow .box.lavender { background: var(--lavender); } .flow .box.peach { background: var(--peach); } .flow .box.pale-lime { background: var(--pale-lime); } .flow .box.grey { background: var(--grey); }
+.flow .under { position: absolute; top: 292px; width: 520px; font: 500 36px/1.3 var(--body); }
+.flow .under code { font: 400 36px/1.3 var(--mono); }
+.flow svg { position: absolute; top: 112px; width: 60px; height: 36px; }
+</style>
+</head>
+<body>
+<div class="deck">
+
+<!-- 1 · Title (cover) -->
+<section class="slide cover" id="s1" data-name="title">
+  <p class="label eyebrow" data-event></p>
+  <h1 class="cover-title">Building on Ethereum with agents</h1>
+  <p class="body medium name">Shiv Bhonde</p>
+  <p class="label role">BuidlGuidl · @shivbhonde</p>
+</section>
+
+<!-- 2 · Statement (content) -->
+<section class="slide content statement" id="s2" data-name="statement">
+  <h1 class="display">An agent can scaffold a dapp. <mark>Shipping it</mark> is still your job.</h1>
+  <p class="body sub">What that looks like with Scaffold-ETH 2, step by step.</p>
+</section>
+
+<!-- 3 · Heading + body (content) -->
+<section class="slide content" id="s3" data-name="heading-body">
+  <h1 class="heading">What the agent gets for free</h1>
+  <div class="body-block body">
+    <ul>
+      <li>A contract, a deploy script and a frontend in one repo</li>
+      <li>Typed hooks for every deployed contract</li>
+      <li>A local chain, a burner wallet and a faucet</li>
+      <li>A debug page that lists every function it can call</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 4 · Heading + image (content) -->
+<section class="slide content" id="s4" data-name="heading-image">
+  <h1 class="heading">The debug page is the agent's first UI</h1>
+  <div class="panel"><img src="sample/se2-ui.png" width="1026" height="748" alt="Scaffold-ETH 2 debug contracts page"></div>
+</section>
+
+<!-- 5 · Three columns (content) -->
+<section class="slide content" id="s5" data-name="three-columns">
+  <h1 class="heading">Three places to start</h1>
+  <div class="cols">
+    <div class="card"><span class="pill periwinkle">01</span><h3>SpeedRun Ethereum</h3><p>Seven challenges, from a simple NFT to a DEX.</p></div>
+    <div class="card"><span class="pill orange">02</span><h3>Scaffold-ETH 2</h3><p>The toolkit for a real dapp, one command away.</p></div>
+    <div class="card"><span class="pill lime">03</span><h3>BuidlGuidl batches</h3><p>Build with a cohort and ship a project together.</p></div>
+  </div>
+</section>
+
+<!-- 6 · Section divider (section) -->
+<section class="slide section" id="s6" data-name="section">
+  <p class="label part">Part 2</p>
+  <h1 class="display">Give the agent a contract</h1>
+</section>
+
+<!-- 7 · Code or terminal (content-dark) -->
+<section class="slide dark" id="s7" data-name="code">
+  <h1 class="heading">One command, one repo</h1>
+  <p class="label term-label">terminal</p>
+  <pre class="code"><span class="prompt">$</span> npx create-eth@latest
+<span class="dim">?</span> Your project name: my-dapp
+<span class="dim">?</span> Solidity framework: hardhat
+<span class="dim">?</span> Install packages: yes
+
+<span class="prompt">$</span> cd my-dapp
+<span class="prompt">$</span> yarn chain
+<span class="prompt">$</span> yarn deploy
+<span class="prompt">$</span> yarn start</pre>
+</section>
+
+<!-- 8 · Quote (content) -->
+<section class="slide content quote" id="s8" data-name="quote">
+  <p class="q">Everything you need to build on Ethereum.</p>
+  <div class="bar"></div>
+  <p class="body medium author">Scaffold-ETH 2</p>
+  <p class="label source">scaffoldeth.io</p>
+</section>
+
+<!-- 9 · Diagram (content) -->
+<section class="slide content diagram" id="s9" data-name="diagram">
+  <h1 class="heading">From contract to UI in Scaffold-ETH 2</h1>
+  <div class="flow">
+    <div class="box lavender" style="left:0">Write the contract</div>
+    <div class="under" style="left:0">Solidity, with Hardhat or Foundry</div>
+    <svg style="left:520px" viewBox="0 0 60 36"><path d="M4 18 H36" stroke="#182232" stroke-width="4" fill="none"/><path d="M34 6 L54 18 L34 30 Z" fill="#182232"/></svg>
+    <div class="box peach" style="left:580px">Deploy it</div>
+    <div class="under" style="left:580px"><code>yarn deploy</code> writes <code>deployedContracts.ts</code></div>
+    <svg style="left:1100px" viewBox="0 0 60 36"><path d="M4 18 H36" stroke="#182232" stroke-width="4" fill="none"/><path d="M34 6 L54 18 L34 30 Z" fill="#182232"/></svg>
+    <div class="box pale-lime" style="left:1160px">Read and write from React</div>
+    <div class="under" style="left:1160px"><code>useScaffoldReadContract</code></div>
+  </div>
+</section>
+
+<!-- 10 · Closing (cover) -->
+<section class="slide cover closing" id="s10" data-name="closing">
+  <p class="label eyebrow" data-event></p>
+  <h1 class="cover-title">Thanks</h1>
+  <p class="body medium name">Shiv Bhonde</p>
+  <p class="body handles">@shivbhonde on X and GitHub</p>
+  <p class="body link"><mark>buidlguidl.com</mark></p>
+</section>
+
+<!-- 11 · Up next (cover) -->
+<section class="slide cover" id="s11" data-name="up-next">
+  <p class="label eyebrow">Up next</p>
+  <h1 class="cover-title">Building on Ethereum with agents</h1>
+  <p class="body medium name">Shiv Bhonde, BuidlGuidl</p>
+  <p class="body meta">13:15 · Workshop 1</p>
+</section>
+
+</div>
+<script>
+  // The one event-line token. Change it here; the pptx has it on the Title and Closing layouts.
+  const EVENT_LINE = "Devcon 8 · Builder Enablement & BuidlGuidl";
+  document.querySelectorAll("[data-event]").forEach(el => el.textContent = EVENT_LINE);
+  // ?slide=N renders only that slide at 0,0 (used by build/render.sh)
+  const n = new URLSearchParams(location.search).get("slide");
+  if (n) { document.body.classList.add("single"); document.getElementById("s" + n).classList.add("show"); }
+  document.fonts.ready.then(() => {
+    document.body.dataset.fonts = [...document.fonts].filter(f => f.status === "loaded").map(f => f.family).filter((v, i, a) => a.indexOf(v) === i).join(", ");
+  });
+</script>
+</body>
+</html>
