@@ -8,10 +8,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 /* ---- tokens (same values as SKILL.md) ---- */
+@font-face {
+  font-family: "PP Neue Machina";
+  src: url("../fonts/PPNeueMachina-InktrapSemibold.woff2") format("woff2"),
+       url("../fonts/PPNeueMachina-InktrapSemibold.otf") format("opentype");
+  font-weight: 600; font-style: normal; font-display: block;
+}
 :root {
   --ink: #182232; --paper: #FFFCFC; --grey: #F4F4F4; --lavender: #D8DCFF; --peach: #FFD4B5;
   --periwinkle: #808CFF; --periwinkle-light: #9FA9FF; --orange: #FF6E1D; --lime: #B5DC3A; --pale-lime: #EAFFA9;
-  --head: "Space Grotesk", sans-serif;   /* headings are Space Grotesk Bold, the font Google Slides has */
+  --head: "PP Neue Machina", "Space Grotesk", sans-serif;   /* headings; fallback is Space Grotesk Bold */
   --body: "Space Grotesk", sans-serif;
   --mono: "Space Mono", monospace;
   --radius: 32px;
@@ -38,9 +44,9 @@ body.single .slide.show { display: block; }
 .slide.heading-only > * { position: absolute; }
 
 /* ---- type scale (px on the 1920 canvas) ---- */
-.display { font: 700 120px/1.05 var(--head); }
-.cover-title { font: 700 96px/1.05 var(--head); }
-.heading { font: 700 80px/1.1 var(--head); }
+.display { font: 600 120px/1.05 var(--head); letter-spacing: -0.01em; }
+.cover-title { font: 600 96px/1.05 var(--head); letter-spacing: -0.01em; }
+.heading { font: 600 80px/1.1 var(--head); letter-spacing: -0.01em; }
 .body { font: 400 48px/1.3 var(--body); }
 .body.medium, .medium { font-weight: 500; }
 .label { font: 500 36px/1.3 var(--body); }
@@ -92,7 +98,7 @@ mark { background: var(--lime); color: var(--ink); padding: 0.02em 0.16em; margi
 .dark .code .dim { color: var(--periwinkle-light); }
 
 /* quote (slide 8) */
-.quote .q { left: 120px; top: 240px; width: 1560px; font: 700 80px/1.15 var(--head); }
+.quote .q { left: 120px; top: 240px; width: 1560px; font: 600 80px/1.15 var(--head); letter-spacing: -0.01em; }
 .quote .q::before { content: "\201C"; position: absolute; left: -0.5em; top: 0; }
 .quote .q::after { content: "\201D"; }
 .quote .bar { left: 120px; top: 600px; width: 60px; height: 6px; background: var(--periwinkle); }

@@ -15,6 +15,6 @@ for name in title statement heading-body heading-image three-columns section cod
     --screenshot="$OUT/$nn-$name.png" "$DECK?slide=$i" 2>/dev/null
   echo "rendered $nn-$name.png"
 done
-# fonts that actually loaded (expect: Space Grotesk, Space Mono)
-"$CHROME" --headless=new --disable-gpu --virtual-time-budget=10000 --dump-dom "$DECK?slide=7" 2>/dev/null | grep -o 'data-fonts="[^"]*"' || echo "WARNING: could not read loaded fonts"
+# fonts that actually loaded (expect: Space Grotesk, Space Mono, PP Neue Machina)
+"$CHROME" --headless=new --disable-gpu --virtual-time-budget=10000 --dump-dom "$DECK?slide=1" 2>/dev/null | grep -o 'data-fonts="[^"]*"' || echo "WARNING: could not read loaded fonts"
 python3 "$KIT/build/contact_sheet.py"

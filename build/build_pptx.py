@@ -29,7 +29,7 @@ SAMPLE_IMAGE = KIT / "reference" / "sample" / "se2-ui.png"
 EVENT_LINE = "Devcon 8 · Builder Enablement & BuidlGuidl"
 
 # ---- fonts (typeface strings as Office resolves them) ----
-HEAD_FONT = "Space Grotesk"  # bold; the font Google Slides has, so the demo matches what shows on stage
+HEAD_FONT = "PP Neue Machina Inktrap Smbold"  # name id 1 of the otf; Keynote may list it as PP Neue Machina / Inktrap Semibold
 BODY_FONT = "Space Grotesk"
 CODE_FONT = "Space Mono"
 
@@ -44,10 +44,10 @@ def px(v):
 
 
 # type scale: (size px, line-height px, font, bold)
-DISPLAY = (120, 126, HEAD_FONT, True)
-COVER_TITLE = (96, 101, HEAD_FONT, True)
-HEADING = (80, 88, HEAD_FONT, True)
-QUOTE = (80, 92, HEAD_FONT, True)
+DISPLAY = (120, 126, HEAD_FONT, False)
+COVER_TITLE = (96, 101, HEAD_FONT, False)
+HEADING = (80, 88, HEAD_FONT, False)
+QUOTE = (80, 92, HEAD_FONT, False)
 BODY = (48, 62, BODY_FONT, False)
 BODY_BOLD = (48, 62, BODY_FONT, True)   # the HTML uses weight 500; Office has no 500, so bold
 LABEL = (36, 47, BODY_FONT, False)
@@ -225,8 +225,8 @@ def fill(slide, idx, text):
 
 def add_highlight(slide, x, y, w, h, radius):
     """Lime marker behind a phrase. Boxes are measured from the HTML render of the same text
-    (reference/deck.html), so they line up with Space Grotesk, which Google Slides has built in.
-    A run-level a:highlight would follow the text, but it cannot have rounded corners or the 0.08em overhang."""
+    (reference/deck.html), so they line up when PP Neue Machina / Space Grotesk are installed.
+    A run-level a:highlight would follow the text, but Keynote drops it on import."""
     shp = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, px(x), px(y), px(w), px(h))
     shp.name = "Highlight"
     shp.adjustments[0] = radius / min(w, h)
@@ -314,7 +314,7 @@ def build_slides(prs, L):
 
     s = prs.slides.add_slide(L["statement"])
     fill(s, 1, "An agent can scaffold a dapp. Shipping it is still your job.")
-    add_highlight(s, 471, 410, 670, 157, 17)
+    add_highlight(s, 491, 429, 757, 121, 17)
     fill(s, 2, "What that looks like with Scaffold-ETH 2, step by step.")
 
     s = prs.slides.add_slide(L["heading-body"])
