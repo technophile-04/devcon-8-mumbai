@@ -30,6 +30,7 @@ body.single { background: transparent; }
 body.single .deck { gap: 0; padding: 0; }
 body.single .slide { display: none; }
 body.single .slide.show { display: block; }
+.slide .notes { display: none; }            /* speaker notes: build/export.sh copies them into the pptx */
 
 /* ---- slide frame: 1920x1080, margins 120 x 96 ---- */
 .slide {
@@ -123,6 +124,7 @@ mark { background: var(--lime); color: var(--ink); padding: 0.02em 0.16em; margi
   <h1 class="cover-title">Building on Ethereum with agents</h1>
   <p class="body medium name">Shiv Bhonde</p>
   <p class="label role">BuidlGuidl · @shivbhonde</p>
+  <aside class="notes">Say who you are in one sentence, then what the audience leaves with. Speaker notes live in an aside like this one: hidden in renders, copied into the pptx by build/export.sh, so they land in Google Slides.</aside>
 </section>
 
 <!-- 2 · Statement (content) -->
@@ -211,6 +213,7 @@ mark { background: var(--lime); color: var(--ink); padding: 0.02em 0.16em; margi
   <p class="body medium name">Shiv Bhonde</p>
   <p class="body handles">@shivbhonde on X and GitHub</p>
   <p class="body link"><mark>buidlguidl.com</mark></p>
+  <aside class="notes">Thank the host, point at the link, stay for questions.</aside>
 </section>
 
 <!-- 11 · Up next (cover) -->
@@ -226,9 +229,9 @@ mark { background: var(--lime); color: var(--ink); padding: 0.02em 0.16em; margi
   // The one event-line token. Change it here; the pptx has it on the Title and Closing layouts.
   const EVENT_LINE = "Devcon 8 · Builder Enablement & BuidlGuidl";
   document.querySelectorAll("[data-event]").forEach(el => el.textContent = EVENT_LINE);
-  // ?slide=N renders only that slide at 0,0 (used by build/render.sh)
+  // ?slide=N renders only the Nth slide, in document order, at 0,0 (used by build/render.sh and build/export.sh)
   const n = new URLSearchParams(location.search).get("slide");
-  if (n) { document.body.classList.add("single"); document.getElementById("s" + n).classList.add("show"); }
+  if (n) { document.body.classList.add("single"); document.querySelectorAll(".slide")[n - 1].classList.add("show"); }
   document.fonts.ready.then(() => {
     document.body.dataset.fonts = [...document.fonts].filter(f => f.status === "loaded").map(f => f.family).filter((v, i, a) => a.indexOf(v) === i).join(", ");
   });

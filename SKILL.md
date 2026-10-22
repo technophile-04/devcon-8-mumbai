@@ -1,6 +1,6 @@
 ---
 name: buidlguidl-devcon8-slides
-description: Build a talk deck in the BuidlGuidl slide kit for the Devcon 8 community-led day (Builder Enablement & BuidlGuidl track). Use when a speaker asks for Devcon slides, a BuidlGuidl deck, or to restyle an existing deck into this kit, in HTML, PowerPoint, Keynote, Google Slides or Claude Design.
+description: Build a talk deck in the BuidlGuidl slide kit for the Devcon 8 community-led day (Builder Enablement & BuidlGuidl track). Use when a speaker asks for Devcon slides, a BuidlGuidl deck, or to restyle an existing deck into this kit. The deck is built as HTML in the kit and exported as pictures into the speaker's Devcon Google Slides deck.
 ---
 
 # BuidlGuidl Devcon 8 slide kit
@@ -10,6 +10,8 @@ Several speakers present back to back and every deck must look like one family. 
 **We lock the frame, you own the content.**
 
 Locked (same for everyone, never redrawn or recoloured): the four background images, the logo baked into them, the fonts, the colours, the type scale, the margins, the title slide, the closing slide and the "up next" slide. Yours: what goes on content slides, which layouts you use, and in which order.
+
+Devcon gives every session its own Google Slides deck, and that deck plays on stage. Google Slides cannot show the heading font as live text, so the deliverable is pictures: you build the deck as HTML in the kit, `build/export.sh` renders one PNG per slide and wraps them in a pptx with speaker notes, and the speaker imports that pptx into their Devcon deck. Every slide arrives pixel-identical, font included.
 
 The kit lives at https://github.com/technophile-04/devcon-8-mumbai (clone it; the demo deck is served at https://technophile-04.github.io/devcon-8-mumbai/reference/deck.html). Reference renders of every layout are in `reference/slides/` and `reference/contact-sheet.png`. Build to match them.
 
@@ -23,9 +25,10 @@ The kit lives at https://github.com/technophile-04/devcon-8-mumbai (clone it; th
 | `backgrounds/content-dark.png` | code and terminal slides. Ink ground, small white logo bottom-left |
 | `fonts/` | PP Neue Machina Inktrap Semibold (otf, woff2), licensed to BuidlGuidl |
 | `logos/` | the logo as SVG and 2x PNG, ink and white. Already baked into the backgrounds; only for a one-off need |
-| `reference/deck.html` | every layout as a 1920x1080 slide with sample content. Start here for an HTML deck |
-| `template/buidlguidl-devcon8.pptx` | 13.333x7.5 in, one layout per slide type, example slides. Start here for PowerPoint, Keynote, Google Slides, Claude Design |
-| `build/` | scripts that regenerate backgrounds, renders and the pptx |
+| `reference/deck.html` | every layout as a 1920x1080 slide with sample content. Copy it to `decks/<talk-slug>.html` and build there |
+| `template/buidlguidl-devcon8.pptx` | 13.333x7.5 in, one layout per slide type, example slides. The hand-build option, in Keynote |
+| `build/export.sh` | turns a deck into the PNGs, the `-google-slides.pptx` and the PDF. Always the last step |
+| `build/` | scripts that regenerate backgrounds, renders and the pptx template |
 
 ## Canvas and units
 
@@ -62,7 +65,7 @@ Lime and periwinkle are fills, never text colours. Text is ink, or paper on the 
 | body, labels | Space Grotesk, Regular and Medium (Bold in pptx, Office has no 500) | Google Fonts |
 | code | Space Mono Regular | Google Fonts |
 
-Fallback for a tool that cannot load Machina (Google Slides): Space Grotesk Bold for headings. Nothing else changes.
+There is no fallback in what the audience sees. Slides reach Google Slides as pictures, and `build/export.sh` refuses to export a deck whose render did not load Machina, Space Grotesk and Space Mono.
 
 Machina is wider than Space Grotesk. Size titles for Machina and check line breaks in every render. In the pptx the heading typeface string is `PP Neue Machina Inktrap Smbold` (the font's Office family name). Keynote lists the same font as family "PP Neue Machina", style "Inktrap Semibold"; if Keynote shows a substitute, use Format > Font > Replace Fonts.
 
@@ -94,7 +97,7 @@ Devcon asks for body text of at least 24 pt, which is 48 px here. Letter-spacing
 At most one highlighted phrase per slide: a lime #B5DC3A marker behind ink text, like the lime button on buidlguidl.com. The marker extends 0.08em beyond the words on each side with 0.14em corner radius.
 
 - HTML: `<mark>` with the CSS from `reference/deck.html`.
-- PowerPoint and Google Slides: Text Highlight Color set to #B5DC3A on the words.
+- PowerPoint: Text Highlight Color set to #B5DC3A on the words.
 - Keynote: it drops imported highlights, so draw a lime rounded rectangle, send it behind the text, and size it to the words. The example slides in the pptx use that shape so they survive every app.
 
 Never highlight a whole line, a heading, or more than one phrase.
@@ -200,13 +203,19 @@ EVENT_LINE = "Devcon 8 · Builder Enablement & BuidlGuidl"
 
 It is a constant at the bottom of `reference/deck.html` and a fixed text box named `EVENT_LINE` on the Title and Closing layouts of the pptx (edit it in Slide Master view once and every cover slide follows). Change it only if the track name changes.
 
-## Building in each tool
+## Building the deck
 
-**HTML deck (Claude Code, Codex, any agent).** Copy `reference/deck.html` to `decks/<talk-slug>.html` inside the kit (same depth as `reference/`, so its `../backgrounds/` and `../fonts/` paths keep working), keep its CSS, delete the sample slides you do not need and duplicate the ones you do. Each slide is a `<section class="slide ...">` at 1920x1080 with the background as `background-image`. Render with `build/render.sh` logic: Chrome headless, `--window-size=1920,1080 --virtual-time-budget=10000 --screenshot`, one `?slide=N` per slide. Confirm `document.body.dataset.fonts` lists Space Grotesk, Space Mono and PP Neue Machina before trusting a render.
+**HTML deck, then export (Claude Code, Codex, any agent).** Copy `reference/deck.html` to `decks/<talk-slug>.html` inside the kit (same depth as `reference/`, so its `../backgrounds/` and `../fonts/` paths keep working), keep its CSS, delete the sample slides you do not need and duplicate the ones you do. Each slide is a `<section class="slide ...">` at 1920x1080 with the background as `background-image`; slide order is document order, and `?slide=N` shows the Nth one. Speaker notes go in an `<aside class="notes">` inside the section: hidden in renders, copied into the pptx speaker notes by the export (slides 1 and 10 of the reference deck show it). The last step is always the export:
 
-**PowerPoint, Keynote, Claude for PowerPoint, Claude Design.** Open `template/buidlguidl-devcon8.pptx`. Install the fonts first (see README). Duplicate an example slide or add a slide from its layout; the layouts already carry the backgrounds as true slide backgrounds and placeholders in the right fonts and sizes. Do not add a picture of the background on top. Keynote opens the pptx directly; keep the 13.333x7.5 in size it reports as 960x540 pt. Claude Design: import the pptx, keep its layouts, and send the result back as pptx or images, never as a restyled deck.
+```
+build/export.sh decks/<talk-slug>.html
+```
 
-**Google Slides.** If you build in Google Slides: File > Import slides from the pptx with "Keep original theme", or open the pptx in Google Slides and copy its slides into your deck. Google Slides has Space Grotesk and Space Mono but not Machina, so headings become Space Grotesk Bold. Keep the sizes from the type scale (in pt: px x 0.375 for a 10 in wide deck, or px / 2 if the deck is 13.333 in wide).
+It renders every slide with Chrome headless the way `build/render.sh` does, refuses if Machina, Space Grotesk or Space Mono did not load (`document.body.dataset.fonts`), and writes next to the deck: `decks/<talk-slug>-slides/NN-name.png`, `decks/<talk-slug>-google-slides.pptx` (one full-bleed picture per slide at 10x5.625 in, Devcon's deck size, with the notes) and `decks/<talk-slug>.pdf` (laptop backup). The speaker imports the pptx into their Devcon Google Slides deck (README, step 3). Hand over all three, and run the self-check on the exported PNGs.
+
+**By hand in Keynote.** Install the font from `fonts/`, open `template/buidlguidl-devcon8.pptx`, duplicate an example slide or add one from its layout (the layouts carry the backgrounds and the type), export the slides as 1920x1080 images, then `build/export.sh <that folder>` makes the same pptx and PDF, without notes. Keep the 13.333x7.5 in size Keynote reports as 960x540 pt.
+
+**Google Slides.** Never build natively in Google Slides: it has no Machina, so the headings lose the font. Import the exported pptx instead.
 
 ## Content rules
 
@@ -228,13 +237,13 @@ It is a constant at the bottom of `reference/deck.html` and a fixed text box nam
 
 ## Self-check before handing over
 
-Render every slide to an image (1920x1080, or the pptx exported to images) and look at each one.
+Look at every exported PNG in `decks/<talk-slug>-slides/` (1920x1080) one by one.
 
 1. Every word sits inside the margins: x 120 to 1800, y 96 to 984.
 2. Nothing overflows its box. Three-line titles stay in their three lines; long words did not break mid-word.
 3. No text sits on line art. On cover slides every word is in the clear column.
 4. Sizes are on the scale: nothing the audience must read is below 48 px, labels 36, code 44.
-5. Headings are Machina (or Space Grotesk Bold only in Google Slides). Body is Space Grotesk, code is Space Mono, nothing else.
+5. Headings are Machina. Body is Space Grotesk, code is Space Mono, nothing else.
 6. At most one lime highlight per slide, ink text on it.
 7. Backgrounds untouched: no second logo, no recolour, no crop, no overlay.
 8. Title, closing and up-next slides use the cover layout and the event line token.
