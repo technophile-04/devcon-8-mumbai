@@ -4,11 +4,7 @@ BuidlGuidl runs one day of community-led sessions at Devcon 8 in Mumbai. Each sp
 
 ![All eleven layouts](reference/contact-sheet.png)
 
-## Build it by hand
-
-Make a copy of the BuidlGuidl Google Slides master, GOOGLE_SLIDES_MASTER_URL, and build in the copy. It has one layout per slide type with the backgrounds, fonts and sizes already set, plus an example slide of each. Duplicate the example you want, replace the text, delete the rest. Every layout is shown at https://technophile-04.github.io/devcon-8-mumbai/reference/deck.html.
-
-## Or give this to your agent
+## Give this to your agent
 
 Paste one line into Claude Code, Codex, Claude chat, or whatever builds your slides:
 
@@ -18,9 +14,13 @@ Clone https://github.com/technophile-04/devcon-8-mumbai and follow its SKILL.md 
 
 `SKILL.md` has the whole system in one file. The agent fills `template/buidlguidl-devcon8.pptx` from its layouts, saves `decks/<talk-slug>.pptx`, and checks its own slides against the rules. You upload that file to Google Drive and open it with Google Slides (File > Save as Google Slides). An agent that can edit Google Slides directly copies the master above instead.
 
+## Or build it by hand
+
+Make a copy of the BuidlGuidl Google Slides master, GOOGLE_SLIDES_MASTER_URL, and build in the copy. It has one layout per slide type with the backgrounds, fonts and sizes already set, plus an example slide of each. Duplicate the example you want, replace the text, delete the rest. Every layout is shown at https://technophile-04.github.io/devcon-8-mumbai/reference/deck.html.
+
 ## Hand it in
 
-Open your Devcon link, the one Devcon emailed you, of the form https://devcon.org/presentation/devcon8/<code>/. Choose File > Import slides, pick your deck, select all slides, tick "Keep original theme", import, then delete Devcon's placeholder slides. Devcon's guidelines say the final deck must live in that link; if you built your slides elsewhere, import them into the link. The guidelines are at https://ef-events.notion.site/Devcon-8-India-Speaker-Guidelines-3e3638cdc41580e2abd8de93aeb659be.
+Devcon wants final slides by Oct 27. Open your Devcon link, the one Devcon emailed you, of the form https://devcon.org/presentation/devcon8/<code>/. Choose File > Import slides, pick your deck, select all slides, tick "Keep original theme", import, then delete Devcon's placeholder slides. Devcon's guidelines say the final deck must live in that link; if you built your slides elsewhere, import them into the link. The guidelines are at https://ef-events.notion.site/Devcon-8-India-Speaker-Guidelines-3e3638cdc41580e2abd8de93aeb659be.
 
 ## Fonts
 
