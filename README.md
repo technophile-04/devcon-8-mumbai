@@ -17,7 +17,7 @@ Clone https://github.com/technophile-04/devcon-8-mumbai and follow its SKILL.md 
 ## Three ways to use it
 
 1. **An agent builds the deck.** Give it the line above. It produces an HTML deck from `reference/deck.html` or a pptx from the template, renders every slide, and self-checks against `SKILL.md`.
-2. **Google Slides.** Devcon's preferred way to present is one Google Slides deck per speaker. Import `template/buidlguidl-devcon8.pptx` with "keep original theme", then write your content into the layouts. Google Slides has Space Grotesk and Space Mono but not the heading font, so headings fall back to Space Grotesk Bold.
+2. **Google Slides.** If you build in Google Slides, import `template/buidlguidl-devcon8.pptx` with "keep original theme", then write your content into the layouts. Google Slides has Space Grotesk and Space Mono but not the heading font, so headings fall back to Space Grotesk Bold.
 3. **Keynote or PowerPoint.** Install the fonts (next section), open `template/buidlguidl-devcon8.pptx`, duplicate the example slide you want, replace the text. Keynote opens the file directly.
 
 ## Fonts

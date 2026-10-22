@@ -5,7 +5,7 @@ description: Build a talk deck in the BuidlGuidl slide kit for the Devcon 8 comm
 
 # BuidlGuidl Devcon 8 slide kit
 
-Six or so speakers present back to back and every deck must look like one family. The kit does that with one rule:
+Several speakers present back to back and every deck must look like one family. The kit does that with one rule:
 
 **We lock the frame, you own the content.**
 
@@ -101,7 +101,7 @@ Never highlight a whole line, a heading, or more than one phrase.
 
 ## Backgrounds: what is baked and what is clear
 
-- `cover.png`: logo at (120, 96), 64 tall. Clear sky from y 216 to about 740 within x 120 to 960. The town's line art starts at y 745 on the far left, y 545 past x 960, y 275 past x 1800. Keep every word inside the clear column.
+- `cover.png`: logo at (120, 96), 64 tall. Clear sky from y 200 to about 740 within x 120 to 960. The town's line art starts at y 745 on the far left, y 545 past x 960, y 275 past x 1800. Keep every word inside the clear column.
 - `section.png`: logo at (120, 96), 64 tall. Title zone x 120 to 1120; the pale lime left side gives ink the best contrast.
 - `content.png` and `content-dark.png`: logo at (120, 1014), 36 tall, inside the bottom margin. The whole content area is free.
 
@@ -113,7 +113,7 @@ Positions are (x, y, width, height). A text box anchors at its top-left and wrap
 
 ### 1. Title [Title], cover.png
 
-- event line: (120, 216, 1000, 47) label. The text is the token `EVENT_LINE` below.
+- event line: (120, 200, 1000, 47) label. The text is the token `EVENT_LINE` below.
 - talk title: (120, 280, 840, 310) cover title, up to three lines
 - speaker name: (120, 624, 900, 62) body medium
 - role or handle: (120, 688, 900, 47) label, e.g. `BuidlGuidl · @handle`
@@ -187,7 +187,7 @@ No QR code (Devcon rule below).
 
 For the host between talks.
 
-- eyebrow: (120, 216, 1000, 47) label, fixed text `Up next`
+- eyebrow: (120, 200, 1000, 47) label, fixed text `Up next`
 - talk title: (120, 280, 840, 310) cover title
 - speaker: (120, 624, 900, 62) body medium, e.g. `Shiv Bhonde, BuidlGuidl`
 - time and room: (120, 688, 900, 62) body, e.g. `13:15 · Workshop 1`
@@ -202,11 +202,11 @@ It is a constant at the bottom of `reference/deck.html` and a fixed text box nam
 
 ## Building in each tool
 
-**HTML deck (Claude Code, Codex, any agent).** Copy `reference/deck.html` next to the `backgrounds/` and `fonts/` folders, keep its CSS, delete the sample slides you do not need and duplicate the ones you do. Each slide is a `<section class="slide ...">` at 1920x1080 with the background as `background-image`. Render with `build/render.sh` logic: Chrome headless, `--window-size=1920,1080 --virtual-time-budget=10000 --screenshot`, one `?slide=N` per slide. Confirm `document.body.dataset.fonts` lists Space Grotesk, Space Mono and PP Neue Machina before trusting a render.
+**HTML deck (Claude Code, Codex, any agent).** Copy `reference/deck.html` to `decks/<talk-slug>.html` inside the kit (same depth as `reference/`, so its `../backgrounds/` and `../fonts/` paths keep working), keep its CSS, delete the sample slides you do not need and duplicate the ones you do. Each slide is a `<section class="slide ...">` at 1920x1080 with the background as `background-image`. Render with `build/render.sh` logic: Chrome headless, `--window-size=1920,1080 --virtual-time-budget=10000 --screenshot`, one `?slide=N` per slide. Confirm `document.body.dataset.fonts` lists Space Grotesk, Space Mono and PP Neue Machina before trusting a render.
 
 **PowerPoint, Keynote, Claude for PowerPoint, Claude Design.** Open `template/buidlguidl-devcon8.pptx`. Install the fonts first (see README). Duplicate an example slide or add a slide from its layout; the layouts already carry the backgrounds as true slide backgrounds and placeholders in the right fonts and sizes. Do not add a picture of the background on top. Keynote opens the pptx directly; keep the 13.333x7.5 in size it reports as 960x540 pt. Claude Design: import the pptx, keep its layouts, and send the result back as pptx or images, never as a restyled deck.
 
-**Google Slides.** Devcon's recommended way to present is one Google Slides deck per speaker. File > Import slides from the pptx with "Keep original theme", or open the pptx in Google Slides and copy its slides into the Devcon deck. Google Slides has Space Grotesk and Space Mono but not Machina, so headings become Space Grotesk Bold. Keep the sizes from the type scale (in pt: px x 0.375 for a 10 in wide deck, or px / 2 if the deck is 13.333 in wide).
+**Google Slides.** If you build in Google Slides: File > Import slides from the pptx with "Keep original theme", or open the pptx in Google Slides and copy its slides into your deck. Google Slides has Space Grotesk and Space Mono but not Machina, so headings become Space Grotesk Bold. Keep the sizes from the type scale (in pt: px x 0.375 for a 10 in wide deck, or px / 2 if the deck is 13.333 in wide).
 
 ## Content rules
 

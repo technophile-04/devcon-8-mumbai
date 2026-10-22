@@ -140,7 +140,7 @@ def build_layouts(prs):
     layouts = list(prs.slide_layouts)
 
     t = reset_layout(layouts[0], "Title", "cover.png")
-    t.append(textbox_xml("EVENT_LINE", 120, 216, 1000, 47, LABEL, EVENT_LINE))
+    t.append(textbox_xml("EVENT_LINE", 120, 200, 1000, 47, LABEL, EVENT_LINE))
     t.append(placeholder_xml("Talk title", "title", 0, 120, 280, 840, 310, COVER_TITLE, "Talk title"))
     t.append(placeholder_xml("Speaker name", "body", 1, 120, 624, 900, 62, BODY_BOLD, "Speaker name"))
     t.append(placeholder_xml("Role or handle", "body", 2, 120, 688, 900, 47, LABEL, "Role · @handle"))
@@ -196,7 +196,7 @@ def build_layouts(prs):
     L["diagram"] = layouts[8]
 
     t = reset_layout(layouts[9], "Closing", "cover.png")
-    t.append(textbox_xml("EVENT_LINE", 120, 216, 1000, 47, LABEL, EVENT_LINE))
+    t.append(textbox_xml("EVENT_LINE", 120, 200, 1000, 47, LABEL, EVENT_LINE))
     t.append(placeholder_xml("Thanks", "title", 0, 120, 280, 840, 110, COVER_TITLE, "Thanks"))
     t.append(placeholder_xml("Speaker name", "body", 1, 120, 440, 880, 62, BODY_BOLD, "Speaker name"))
     t.append(placeholder_xml("Handles", "body", 2, 120, 504, 880, 62, BODY, "@handle on X and GitHub"))
@@ -204,7 +204,7 @@ def build_layouts(prs):
     L["closing"] = layouts[9]
 
     t = reset_layout(layouts[10], "Up next", "cover.png")
-    t.append(textbox_xml("Up next", 120, 216, 1000, 47, LABEL, "Up next"))
+    t.append(textbox_xml("Up next", 120, 200, 1000, 47, LABEL, "Up next"))
     t.append(placeholder_xml("Talk title", "title", 0, 120, 280, 840, 310, COVER_TITLE, "Talk title"))
     t.append(placeholder_xml("Speaker", "body", 1, 120, 624, 900, 62, BODY_BOLD, "Speaker, affiliation"))
     t.append(placeholder_xml("Time and room", "body", 2, 120, 688, 900, 62, BODY, "13:15 · Room"))

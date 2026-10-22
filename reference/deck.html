@@ -54,7 +54,7 @@ body.single .slide.show { display: block; }
 mark { background: var(--lime); color: var(--ink); padding: 0.02em 0.16em; margin: 0 -0.08em; border-radius: 0.14em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
 
 /* ---- cover slots: title, closing, up next (slides 1, 10, 11) ---- */
-.cover .eyebrow { left: 120px; top: 216px; width: 1000px; }
+.cover .eyebrow { left: 120px; top: 200px; width: 1000px; }
 .cover .cover-title { left: 120px; top: 280px; width: 840px; }
 .cover .name  { left: 120px; top: 624px; width: 900px; }
 .cover .role  { left: 120px; top: 688px; width: 900px; }
@@ -100,6 +100,7 @@ mark { background: var(--lime); color: var(--ink); padding: 0.02em 0.16em; margi
 /* quote (slide 8) */
 .quote .q { left: 120px; top: 240px; width: 1560px; font: 600 80px/1.15 var(--head); letter-spacing: -0.01em; }
 .quote .q::before { content: "\201C"; position: absolute; left: -0.5em; top: 0; }
+.quote .q::after { content: "\201D"; }
 .quote .bar { left: 120px; top: 600px; width: 60px; height: 6px; background: var(--periwinkle); }
 .quote .author { left: 120px; top: 640px; width: 1200px; }
 .quote .source { left: 120px; top: 704px; width: 1200px; }
