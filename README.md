@@ -1,10 +1,14 @@
 # BuidlGuidl slide kit for Devcon 8
 
-BuidlGuidl runs one day of community-led sessions at Devcon 8 in Mumbai. Each speaker builds slides with their own tool or agent and presents from Devcon's Google Slides, so this kit makes every deck come out looking like one family. It holds four background images with the logo already in place, the fonts, the colours and sizes, a reference deck of every layout, and a PowerPoint template. We lock the frame, you own the content.
+BuidlGuidl runs one day of community-led sessions at Devcon 8 in Mumbai. Each speaker builds slides with their own tool or agent, so this kit makes every deck come out looking like one family. It holds four background images with the logo already in place, the colours and sizes, a reference deck of every layout, and a pptx template whose layouts carry all of that. We lock the frame, you own the content.
 
 ![All eleven layouts](reference/contact-sheet.png)
 
-## Give this to your agent
+## Build it by hand
+
+Make a copy of the BuidlGuidl Google Slides master, GOOGLE_SLIDES_MASTER_URL, and build in the copy. It has one layout per slide type with the backgrounds, fonts and sizes already set, plus an example slide of each. Duplicate the example you want, replace the text, delete the rest. Every layout is shown at https://technophile-04.github.io/devcon-8-mumbai/reference/deck.html.
+
+## Or give this to your agent
 
 Paste one line into Claude Code, Codex, Claude chat, or whatever builds your slides:
 
@@ -12,25 +16,15 @@ Paste one line into Claude Code, Codex, Claude chat, or whatever builds your sli
 Clone https://github.com/technophile-04/devcon-8-mumbai and follow its SKILL.md to build my slides for <talk title>.
 ```
 
-`SKILL.md` has the whole system in one file. The agent reads it, uses the backgrounds and the type scale, and checks its own renders. The live demo deck with every layout is at https://technophile-04.github.io/devcon-8-mumbai/reference/deck.html.
+`SKILL.md` has the whole system in one file. The agent fills `template/buidlguidl-devcon8.pptx` from its layouts, saves `decks/<talk-slug>.pptx`, and checks its own slides against the rules. You upload that file to Google Drive and open it with Google Slides (File > Save as Google Slides). An agent that can edit Google Slides directly copies the master above instead.
 
-## From the kit to the stage
+## Hand it in
 
-Devcon gives every session its own Google Slides deck, and that deck is what plays on stage. Google Slides cannot show the kit's heading font as live text, so the deck goes in as pictures: every slide identical to the pixel, with the right font, and still playing from Devcon's link.
-
-1. Give your agent the line above.
-2. The agent builds your deck in the kit and runs `build/export.sh`. You get a folder of PNGs, `decks/<talk-slug>-google-slides.pptx` and `decks/<talk-slug>.pdf`.
-3. Open your Devcon Google Slides deck (the link Devcon emailed you, of the form https://devcon.org/presentation/devcon8/<code>/). Choose File > Import slides > Upload, pick the `-google-slides.pptx`, select all slides, import, then delete Devcon's placeholder slides. Speaker notes come along.
-4. To change anything, edit the source, export again and re-import. Text is not editable inside Google Slides, and that is on purpose: it keeps the font.
-5. Keep the PDF on your laptop as the backup.
-
-Building by hand: install the font from `fonts/`, open `template/buidlguidl-devcon8.pptx` in Keynote, duplicate the example slides you want and replace the text, export the slides as images at 1920x1080, then run `build/export.sh` on that folder and import the same way. Do not build natively in Google Slides: it loses the heading font.
+Open your Devcon link, the one Devcon emailed you, of the form https://devcon.org/presentation/devcon8/<code>/. Choose File > Import slides, pick your deck, select all slides, tick "Keep original theme", import, then delete Devcon's placeholder slides. Devcon's guidelines say the final deck must live in that link; if you built your slides elsewhere, import them into the link. The guidelines are at https://ef-events.notion.site/Devcon-8-India-Speaker-Guidelines-3e3638cdc41580e2abd8de93aeb659be.
 
 ## Fonts
 
-Headings use PP Neue Machina Inktrap Semibold. It is licensed to BuidlGuidl and is for BuidlGuidl talks. Keynote users install it from `fonts/` (double-click the `.otf`, click Install Font).
-
-Body and code use Space Grotesk and Space Mono. Install both from Google Fonts: https://fonts.google.com/specimen/Space+Grotesk and https://fonts.google.com/specimen/Space+Mono. HTML decks link them from Google Fonts; nothing to install.
+Headings are Space Grotesk Bold, body is Space Grotesk, code is Space Mono. Google Slides has all three built in, so there is nothing to install.
 
 ## Locked vs yours
 
@@ -49,4 +43,4 @@ Source: https://devcon.org/Devcon8-Speaker-Guidelines-2026.pdf
 
 ## Regenerating the kit
 
-`build/build.sh` rebuilds the logo PNGs, the backgrounds, the slide renders, the contact sheet and the pptx template. `build/export.sh` turns a deck into the Google Slides pictures, pptx and PDF. Both need Google Chrome, Python 3 with Pillow, and `uv` (which fetches python-pptx). The source art in `build/src/` comes from the buidlguidl.com repo.
+For maintainers. `build/build.sh` rebuilds the logo PNGs, the backgrounds, the slide renders, the contact sheet and the pptx. The reference PNGs are rendered from `reference/deck.html`. It needs Google Chrome, Python 3 with Pillow, and `uv` (which fetches python-pptx). The source art in `build/src/` comes from the buidlguidl.com repo. After a rebuild, upload the new pptx to Google Drive and replace the master.

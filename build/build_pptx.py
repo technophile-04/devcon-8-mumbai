@@ -3,10 +3,12 @@
 Run: uv run --offline --with python-pptx python build/build_pptx.py
 Needs backgrounds/ (build/backgrounds.py) and reference/sample/se2-ui.png.
 
-Slide size 13.333 x 7.5 in. Every px value below is on the 1920x1080 canvas
-(1 px = 6350 EMU = 0.5 pt). Layouts carry the backgrounds as true slide
-backgrounds plus text placeholders in the kit's fonts and sizes. The example
-slides use those layouts so people can duplicate them.
+Slide size 10 x 5.625 in, the size of the Google Slides deck Devcon gives
+every speaker, so an import into it rescales nothing. Every px value below is
+on the 1920x1080 canvas (1 px = 4762.5 EMU = 0.375 pt). Layouts carry the
+backgrounds as true slide backgrounds plus text placeholders in the kit's
+fonts and sizes. The example slides use those layouts so people can
+duplicate them.
 """
 import re
 from pathlib import Path
@@ -28,28 +30,39 @@ SAMPLE_IMAGE = KIT / "reference" / "sample" / "se2-ui.png"
 # ---- the one event-line token (also in reference/deck.html and SKILL.md) ----
 EVENT_LINE = "Devcon 8 · Builder Enablement & BuidlGuidl"
 
-# ---- fonts (typeface strings as Office resolves them) ----
-HEAD_FONT = "PP Neue Machina Inktrap Smbold"  # name id 1 of the otf; Keynote may list it as PP Neue Machina / Inktrap Semibold
+# ---- fonts (typeface strings as Google Slides resolves them) ----
+HEAD_FONT = "Space Grotesk"  # bold; the font Google Slides has, so the demo matches what shows on stage
 BODY_FONT = "Space Grotesk"
 CODE_FONT = "Space Mono"
 
 INK, PAPER, GREY, LAVENDER, PEACH = "182232", "FFFCFC", "F4F4F4", "D8DCFF", "FFD4B5"
 PERIWINKLE, PERIWINKLE_LIGHT, ORANGE, LIME, PALE_LIME = "808CFF", "9FA9FF", "FF6E1D", "B5DC3A", "EAFFA9"
 
-PX = 6350  # EMU per canvas px
+PX = 4762.5     # EMU per canvas px (914400 EMU per in, 10 in for 1920 px)
+PT = 0.375      # pt per canvas px (720 pt across 1920 px)
 
 
 def px(v):
     return Emu(round(v * PX))
 
 
+def E(v):
+    """EMU string value for a px offset or extent."""
+    return round(v * PX)
+
+
+def hpt(v):
+    """Hundredths of a point for a px size, the unit of sz and spcPts."""
+    return round(v * PT * 100)
+
+
 # type scale: (size px, line-height px, font, bold)
-DISPLAY = (120, 126, HEAD_FONT, False)
-COVER_TITLE = (96, 101, HEAD_FONT, False)
-HEADING = (80, 88, HEAD_FONT, False)
-QUOTE = (80, 92, HEAD_FONT, False)
+DISPLAY = (120, 126, HEAD_FONT, True)
+COVER_TITLE = (96, 101, HEAD_FONT, True)
+HEADING = (80, 88, HEAD_FONT, True)
+QUOTE = (80, 92, HEAD_FONT, True)
 BODY = (48, 62, BODY_FONT, False)
-BODY_BOLD = (48, 62, BODY_FONT, True)   # the HTML uses weight 500; Office has no 500, so bold
+BODY_BOLD = (48, 62, BODY_FONT, True)   # the HTML uses weight 500; pptx has no 500, so bold
 LABEL = (36, 47, BODY_FONT, False)
 CODE = (44, 64, CODE_FONT, False)
 
@@ -65,7 +78,7 @@ def next_id():
 def run_props(style, color=INK, highlight=None):
     size, _, font, bold = style
     hl = f'<a:highlight><a:srgbClr val="{highlight}"/></a:highlight>' if highlight else ""
-    return (f'<a:defRPr sz="{size * 50}" b="{1 if bold else 0}"><a:solidFill><a:srgbClr val="{color}"/></a:solidFill>{hl}'
+    return (f'<a:defRPr sz="{hpt(size)}" b="{1 if bold else 0}"><a:solidFill><a:srgbClr val="{color}"/></a:solidFill>{hl}'
             f'<a:latin typeface="{font}"/><a:ea typeface="{font}"/><a:cs typeface="{font}"/></a:defRPr>')
 
 
@@ -73,8 +86,8 @@ def para_props(style, bullets=False, space_before=0, color=INK):
     _, lh, _, _ = style
     bu = (f'<a:buClr><a:srgbClr val="{PERIWINKLE}"/></a:buClr><a:buSzPct val="80000"/><a:buFont typeface="Arial"/><a:buChar char="●"/>'
           if bullets else "<a:buNone/>")
-    mar = 'marL="406400" indent="-406400"' if bullets else 'marL="0" indent="0"'
-    return (f'<a:lvl1pPr {mar} algn="l"><a:lnSpc><a:spcPts val="{lh * 50}"/></a:lnSpc><a:spcBef><a:spcPts val="{space_before * 50}"/></a:spcBef>'
+    mar = f'marL="{E(64)}" indent="-{E(64)}"' if bullets else 'marL="0" indent="0"'  # text starts 64 px in
+    return (f'<a:lvl1pPr {mar} algn="l"><a:lnSpc><a:spcPts val="{hpt(lh)}"/></a:lnSpc><a:spcBef><a:spcPts val="{hpt(space_before)}"/></a:spcBef>'
             f'{bu}{run_props(style, color)}</a:lvl1pPr>')
 
 
@@ -86,14 +99,14 @@ def placeholder_xml(name, ph_type, idx, x, y, w, h, style, prompt, color=INK, bu
     return parse_xml(
         f'<p:sp {NS}><p:nvSpPr><p:cNvPr id="{next_id()}" name="{name}"/><p:cNvSpPr><a:spLocks noGrp="1"/></p:cNvSpPr>'
         f'<p:nvPr>{ph}</p:nvPr></p:nvSpPr>'
-        f'<p:spPr><a:xfrm><a:off x="{x * PX}" y="{y * PX}"/><a:ext cx="{w * PX}" cy="{h * PX}"/></a:xfrm>'
+        f'<p:spPr><a:xfrm><a:off x="{E(x)}" y="{E(y)}"/><a:ext cx="{E(w)}" cy="{E(h)}"/></a:xfrm>'
         f'<a:prstGeom prst="rect"><a:avLst/></a:prstGeom></p:spPr>{body}</p:sp>')
 
 
 def textbox_xml(name, x, y, w, h, style, text, color=INK):
     return parse_xml(
         f'<p:sp {NS}><p:nvSpPr><p:cNvPr id="{next_id()}" name="{name}"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>'
-        f'<p:spPr><a:xfrm><a:off x="{x * PX}" y="{y * PX}"/><a:ext cx="{w * PX}" cy="{h * PX}"/></a:xfrm>'
+        f'<p:spPr><a:xfrm><a:off x="{E(x)}" y="{E(y)}"/><a:ext cx="{E(w)}" cy="{E(h)}"/></a:xfrm>'
         f'<a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>'
         f'<p:txBody><a:bodyPr wrap="square" lIns="0" tIns="0" rIns="0" bIns="0" anchor="t"><a:noAutofit/></a:bodyPr>'
         f'<a:lstStyle>{para_props(style, color=color)}</a:lstStyle>'
@@ -108,7 +121,7 @@ def rect_xml(name, x, y, w, h, fill, radius_px=0):
         geom = '<a:prstGeom prst="rect"><a:avLst/></a:prstGeom>'
     return parse_xml(
         f'<p:sp {NS}><p:nvSpPr><p:cNvPr id="{next_id()}" name="{name}"/><p:cNvSpPr/><p:nvPr/></p:nvSpPr>'
-        f'<p:spPr><a:xfrm><a:off x="{x * PX}" y="{y * PX}"/><a:ext cx="{w * PX}" cy="{h * PX}"/></a:xfrm>{geom}'
+        f'<p:spPr><a:xfrm><a:off x="{E(x)}" y="{E(y)}"/><a:ext cx="{E(w)}" cy="{E(h)}"/></a:xfrm>{geom}'
         f'<a:solidFill><a:srgbClr val="{fill}"/></a:solidFill><a:ln><a:noFill/></a:ln></p:spPr>'
         f'<p:txBody><a:bodyPr/><a:lstStyle/><a:p/></p:txBody></p:sp>')
 
@@ -225,8 +238,8 @@ def fill(slide, idx, text):
 
 def add_highlight(slide, x, y, w, h, radius):
     """Lime marker behind a phrase. Boxes are measured from the HTML render of the same text
-    (reference/deck.html), so they line up when PP Neue Machina / Space Grotesk are installed.
-    A run-level a:highlight would follow the text, but Keynote drops it on import."""
+    (reference/deck.html), so they line up with Space Grotesk, which Google Slides has built in.
+    A run-level a:highlight would follow the text, but it cannot have rounded corners or the 0.08em overhang."""
     shp = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, px(x), px(y), px(w), px(h))
     shp.name = "Highlight"
     shp.adjustments[0] = radius / min(w, h)
@@ -244,11 +257,11 @@ def add_highlight(slide, x, y, w, h, radius):
 def style_runs(shape, style, color=INK, align=None):
     size, lh, font, bold = style
     for p in shape.text_frame.paragraphs:
-        p.line_spacing = Pt(lh / 2)
+        p.line_spacing = Pt(lh * PT)
         if align:
             p.alignment = align
         for r in p.runs:
-            r.font.size = Pt(size / 2)
+            r.font.size = Pt(size * PT)
             r.font.name = font
             r.font.bold = bold
             r.font.color.rgb = RGBColor.from_string(color)
@@ -314,7 +327,7 @@ def build_slides(prs, L):
 
     s = prs.slides.add_slide(L["statement"])
     fill(s, 1, "An agent can scaffold a dapp. Shipping it is still your job.")
-    add_highlight(s, 491, 429, 757, 121, 17)
+    add_highlight(s, 471, 410, 670, 157, 17)
     fill(s, 2, "What that looks like with Scaffold-ETH 2, step by step.")
 
     s = prs.slides.add_slide(L["heading-body"])
@@ -406,8 +419,8 @@ def patch_theme(prs):
 
 def main():
     prs = Presentation()
-    prs.slide_width = Emu(12192000)   # 13.333 in
-    prs.slide_height = Emu(6858000)   # 7.5 in
+    prs.slide_width = Emu(9144000)    # 10 in
+    prs.slide_height = Emu(5143500)   # 5.625 in
     patch_theme(prs)
     layouts = build_layouts(prs)
     build_slides(prs, layouts)
