@@ -50,7 +50,7 @@ Yours: everything between title and closing, in any order, with at most one lime
 | Google Slides, your own or the Devcon link | the pptx saved as Google Slides, or a copy of the master, [recipe](recipes/google-slides.md) | nothing, the fonts are built in |
 | a browser on your own laptop | HTML, [recipe](recipes/html.md) | internet for Google Fonts, or the two fonts installed |
 
-Another tool, like Keynote native, Reveal or Figma, uses the same colours, fonts, backgrounds and positions, all listed in [AGENTS.md](AGENTS.md). Match the renders in `reference/slides/`.
+Another tool, like Reveal.js, Slidev or Figma, uses the same colours, fonts, backgrounds and positions, all listed in [AGENTS.md](AGENTS.md). Match the renders in `reference/slides/`.
 
 ## Build by hand
 

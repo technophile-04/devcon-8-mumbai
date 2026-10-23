@@ -22,7 +22,7 @@ The speaker's stated format wins. Otherwise pick the one that fits how they will
 
 Any other format, such as Keynote native, Reveal, Slidev or Figma, uses the same tokens, backgrounds and positions from the reference below, with `reference/slides/*.png` as the visual truth.
 
-Fonts in every format are Space Grotesk and Space Mono, both free Google Fonts. Google Slides has them built in. PowerPoint and Keynote need them installed on the presenting laptop, from fonts.google.com. HTML loads them from Google Fonts, so a deck shown offline needs them installed or embedded.
+Fonts in every format are Space Grotesk and Space Mono, both free Google Fonts. Google Slides has them built in. PowerPoint and Keynote need them installed on the presenting laptop, from fonts.google.com. HTML loads them from Google Fonts, so a deck shown offline needs them installed on the presenting laptop.
 
 Done when you have named the format and read its recipe.
 
@@ -38,16 +38,16 @@ Done when the file opens, Title is the first slide, Closing is the last, and eve
 
 Look at every slide as a 1920x1080 image; the recipe says how. On each slide confirm:
 
-1. Every word sits inside the margins, x 120 to 1800, y 96 to 984.
+1. Every word sits inside the margins, x 120 to 1800, y 96 to 984. The highlight marker and an opening quotation mark may hang a few px into the margin.
 2. Nothing overflows its box. Three-line titles stay in three lines, and no word broke mid-word.
-3. No text sits on line art. On cover slides every word is in the clear column, the title ends at y 440, and the speaker block sits below it with a clear gap.
+3. No text sits on line art. On cover slides every word is in the open sky, the title ends at y 440, and the speaker block sits below it with a clear gap.
 4. Sizes are on the type scale: everything the audience must read is 48 px or larger, labels and tags 36, code 44.
 5. Headings are Space Grotesk Bold, body is Space Grotesk, code and tags are Space Mono.
 6. At most one lime highlight, with ink text on it.
 7. The frame is untouched: one set of marks, no recolour, no crop, no overlay.
 8. Title and Closing use the cover layouts with the event line in the corner.
 9. Colours come from the table below, as flat fills. No gradients, no shadows, no emoji.
-10. No QR code and none of the §11b words.
+10. No QR code and none of the words listed under Devcon rules.
 
 Done when every slide has passed all ten checks and the speaker has the file path.
 
@@ -117,11 +117,11 @@ Devcon asks for body text of at least 24 pt, which is 48 px here.
 
 ### The highlight
 
-At most one highlighted phrase per slide: a lime #B5DC3A marker behind ink text, like the lime button on buidlguidl.com. The marker extends 0.08em beyond the words on each side with 0.14em corner radius. It marks a phrase, so a whole line or a heading stays plain. Each recipe says how to draw it in its format.
+At most one highlighted phrase per slide: a lime #B5DC3A marker behind ink text, like the lime button on buidlguidl.com. The marker extends 0.08em beyond the words on each side with 0.14em corner radius. It marks a phrase, so a whole line or a heading stays plain. Put it mid-line where you can: a marker at the start of a line hangs into the left margin. Each recipe says how to draw it in its format.
 
 ### Backgrounds: what is baked and what is clear
 
-- `cover.png`: wordmark at (120, 96), 64 tall. Clear sky from y 160 to about 760 within x 120 to 960. The town's line art starts at y 766 on the far left, y 545 past x 960, y 275 past x 1800. Keep every word inside the clear column.
+- `cover.png`: wordmark at (120, 96), 64 tall. The open sky narrows as the town rises: clear across the full width from y 160 to 300, to x 1450 down to y 430, to x 1000 from y 440 to 760. The title box (to x 1270, ending at y 440) and the speaker block (to x 960, below y 440) sit inside it. Keep every word in the open sky.
 - `section.png`: wordmark at (120, 96), 64 tall. Title zone x 120 to 1120, where the pale lime left side gives ink the best contrast.
 - `content.png` and `content-dark.png`: castle mark at (120, 26), 44 tall, and a "Devcon 8" tag in Space Mono 36 ending at x 1800, both centred on y 48 inside the top margin band. The whole content area is free; headings start at y 120.
 
@@ -156,7 +156,7 @@ The title slide is the first frame of the YouTube recording, so it carries nothi
 
 - heading: (120, 120, 1680, 96) heading, one line
 - panel: (120, 256, 1680, 728) lavender, radius 32
-- image: inside the panel with 40 px padding, so within (160, 296, 1600, 648), at its natural aspect, centred, corners radius 24. A screenshot keeps its aspect; the panel shows the ground around it
+- image: inside the panel with 40 px padding, so within (160, 296, 1600, 648), at its natural aspect, centred, corners radius 24. A screenshot keeps its aspect, with the lavender panel showing around it
 
 #### 5. Three columns, on content.png
 
@@ -164,7 +164,7 @@ The title slide is the first frame of the YouTube recording, so it carries nothi
 - cards: x 120, 696, 1272, each (528 wide, y 260, 520 tall), paper, radius 32, padding 48
 - pill: (card x + 48, 308, 96, 64), fully round, label text 01 02 03 centred; fills periwinkle, orange, lime
 - card title: (card x + 48, 404, 432, 120) body medium
-- card text: (card x + 48, 544, 432, 200) body, one or two short lines
+- card text: (card x + 48, 544, 432, 200) body, up to three short lines
 
 #### 6. Section, on section.png
 
@@ -183,6 +183,8 @@ The title slide is the first frame of the YouTube recording, so it carries nothi
 - bar: (120, 600, 60, 6) periwinkle
 - author: (120, 640, 1200, 62) body medium
 - source: (120, 704, 1200, 47) label
+
+Attribute only what the speaker attributed. A quote with no known author keeps the bar and leaves author and source empty.
 
 A post screenshot replaces the quote text: put it at natural aspect inside (120, 240, 1560, 330) with radius 24, and keep the bar and author.
 
@@ -203,7 +205,7 @@ Same positions as the title slide: Thanks on the title line, the speaker block b
 - thanks: (120, 188, 1150, 252) cover title, bottom-anchored so the text ends at y 440
 - speaker name: (120, 496, 840, 62) body medium
 - handles: (120, 560, 840, 47) tag, e.g. `@handle on X and GitHub`
-- link: (120, 656, 840, 62) body, this slide's one highlight
+- link: (120, 656, 840, 62) body, this slide's one highlight. The speaker's link, or `buidlguidl.com` when they gave none
 
 The link is typed, with no QR code (Devcon rules below).
 
