@@ -69,7 +69,7 @@ Google Slides only offers Google Fonts, so the kit uses only Google Fonts. Nothi
 | Style | Size | Line height | Font | Where |
 | --- | --- | --- | --- | --- |
 | display | 120 | 126 | Space Grotesk Bold | statement, section title |
-| cover title | 96 | 101 | Space Grotesk Bold | title, closing, up next (the clear-sky column is 840 wide; 120 does not fit a normal title there) |
+| cover title | 96 | 101 | Space Grotesk Bold | title, closing, up next (two lines in a 1150 wide box in the sky above the art; a title that needs three lines drops to 80) |
 | heading | 80 | 88 | Space Grotesk Bold | every content heading |
 | quote | 80 | 92 | Space Grotesk Bold | the quote slide |
 | body | 48 | 62 | Space Grotesk | everything the audience must read |
@@ -102,12 +102,12 @@ Positions are (x, y, width, height). A text box anchors at its top-left and wrap
 
 ### 1. Title [Title], cover.png
 
-Two groups in the clear column: the title, then the speaker block with a clear gap. The title box is anchored at its bottom, so a long title grows upward and never reaches the speaker block.
+Two groups on the left: the title in the open sky above the art, then the speaker block below it with a clear gap. The title box is anchored at its bottom, so a long title grows upward and never reaches the speaker block.
 
 - event line: (720, 104, 1080, 47) tag, right-aligned, on the wordmark's line. Fixed text box on the layout, the token `EVENT_LINE` below
-- talk title: (120, 188, 840, 404) cover title, bottom-anchored (text ends at y 592), up to four lines. `title`
-- speaker name: (120, 648, 840, 62) body medium. `[1]`
-- handle: (120, 712, 840, 47) tag, e.g. `@handle`. `[2]`
+- talk title: (120, 188, 1150, 252) cover title, bottom-anchored (text ends at y 440), two lines. About 45 characters fit; every talk on the day does. If a title needs three lines, set it to 80 px with 84 px line spacing (30 pt on 31.5 pt) so it stays in the box and clear of the wordmark. `title`
+- speaker name: (120, 496, 840, 62) body medium. `[1]`
+- handle: (120, 560, 840, 47) tag, e.g. `@handle`. `[2]`
 
 The title slide is the first frame of the YouTube recording. No extra decoration.
 
@@ -166,13 +166,13 @@ The layout has only the heading. Draw the boxes, arrows and captions as shapes: 
 
 ### 10. Closing [Closing], cover.png
 
-Same pattern as the title slide: Thanks, the speaker block, then the link. Thanks is one line, so the group sits higher to leave the link clear of the art.
+Same positions as the title slide: Thanks on the title line, the speaker block below it, then the link.
 
 - event line: same fixed box as the title slide, token `EVENT_LINE`
-- thanks: (120, 188, 840, 284) cover title, bottom-anchored (text ends at y 472). `title`
-- speaker name: (120, 528, 840, 62) body medium. `[1]`
-- handles: (120, 592, 840, 47) tag, e.g. `@handle on X and GitHub`. `[2]`
-- link: (120, 688, 840, 62) body, this slide's one highlight. `[3]`
+- thanks: (120, 188, 1150, 252) cover title, bottom-anchored (text ends at y 440). `title`
+- speaker name: (120, 496, 840, 62) body medium. `[1]`
+- handles: (120, 560, 840, 47) tag, e.g. `@handle on X and GitHub`. `[2]`
+- link: (120, 656, 840, 62) body, this slide's one highlight. `[3]`
 
 No QR code (Devcon rule below).
 
@@ -181,9 +181,9 @@ No QR code (Devcon rule below).
 For the host between talks. The title slide's layout with `Up next` in the corner and the time and room where the handle goes.
 
 - corner tag: (720, 104, 1080, 47) tag, right-aligned, fixed text `Up next` on the layout
-- talk title: (120, 188, 840, 404) cover title, bottom-anchored. `title`
-- speaker: (120, 648, 840, 62) body medium, e.g. `Shiv Bhonde`. `[1]`
-- time and room: (120, 712, 840, 47) tag, e.g. `13:15 · Workshop 1`. `[2]`
+- talk title: (120, 188, 1150, 252) cover title, bottom-anchored. `title`
+- speaker: (120, 496, 840, 62) body medium, e.g. `Shiv Bhonde`. `[1]`
+- time and room: (120, 560, 840, 47) tag, e.g. `13:15 · Workshop 1`. `[2]`
 
 ## The event line token
 

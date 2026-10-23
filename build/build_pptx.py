@@ -157,9 +157,9 @@ def build_layouts(prs):
     # bottom of its box so a long title grows upward and never runs into the speaker block fixed below it.
     t = reset_layout(layouts[0], "Title", "cover.png")
     t.append(textbox_xml("EVENT_LINE", 720, 104, 1080, 47, TAG, EVENT_LINE, align="r"))
-    t.append(placeholder_xml("Talk title", "title", 0, 120, 188, 840, 404, COVER_TITLE, "Talk title", anchor="b"))
-    t.append(placeholder_xml("Speaker name", "body", 1, 120, 648, 840, 62, BODY_BOLD, "Speaker name"))
-    t.append(placeholder_xml("Handle", "body", 2, 120, 712, 840, 47, TAG, "@handle"))
+    t.append(placeholder_xml("Talk title", "title", 0, 120, 188, 1150, 252, COVER_TITLE, "Talk title", anchor="b"))
+    t.append(placeholder_xml("Speaker name", "body", 1, 120, 496, 840, 62, BODY_BOLD, "Speaker name"))
+    t.append(placeholder_xml("Handle", "body", 2, 120, 560, 840, 47, TAG, "@handle"))
     L["title"] = layouts[0]
 
     t = reset_layout(layouts[1], "Statement", "content.png")
@@ -211,19 +211,19 @@ def build_layouts(prs):
     t.append(placeholder_xml("Heading", "title", 0, 120, 120, 1680, 96, HEADING, "Heading"))
     L["diagram"] = layouts[8]
 
-    t = reset_layout(layouts[9], "Closing", "cover.png")   # Thanks is one line, so the group sits higher to fit the link
+    t = reset_layout(layouts[9], "Closing", "cover.png")   # same title line and speaker block as Title, link below
     t.append(textbox_xml("EVENT_LINE", 720, 104, 1080, 47, TAG, EVENT_LINE, align="r"))
-    t.append(placeholder_xml("Thanks", "title", 0, 120, 188, 840, 284, COVER_TITLE, "Thanks", anchor="b"))
-    t.append(placeholder_xml("Speaker name", "body", 1, 120, 528, 840, 62, BODY_BOLD, "Speaker name"))
-    t.append(placeholder_xml("Handles", "body", 2, 120, 592, 840, 47, TAG, "@handle on X and GitHub"))
-    t.append(placeholder_xml("Link", "body", 3, 120, 688, 840, 62, BODY, "one-link.com"))
+    t.append(placeholder_xml("Thanks", "title", 0, 120, 188, 1150, 252, COVER_TITLE, "Thanks", anchor="b"))
+    t.append(placeholder_xml("Speaker name", "body", 1, 120, 496, 840, 62, BODY_BOLD, "Speaker name"))
+    t.append(placeholder_xml("Handles", "body", 2, 120, 560, 840, 47, TAG, "@handle on X and GitHub"))
+    t.append(placeholder_xml("Link", "body", 3, 120, 656, 840, 62, BODY, "one-link.com"))
     L["closing"] = layouts[9]
 
     t = reset_layout(layouts[10], "Up next", "cover.png")
     t.append(textbox_xml("Up next", 720, 104, 1080, 47, TAG, "Up next", align="r"))
-    t.append(placeholder_xml("Talk title", "title", 0, 120, 188, 840, 404, COVER_TITLE, "Talk title", anchor="b"))
-    t.append(placeholder_xml("Speaker", "body", 1, 120, 648, 840, 62, BODY_BOLD, "Speaker name"))
-    t.append(placeholder_xml("Time and room", "body", 2, 120, 712, 840, 47, TAG, "13:15 · Room"))
+    t.append(placeholder_xml("Talk title", "title", 0, 120, 188, 1150, 252, COVER_TITLE, "Talk title", anchor="b"))
+    t.append(placeholder_xml("Speaker", "body", 1, 120, 496, 840, 62, BODY_BOLD, "Speaker name"))
+    t.append(placeholder_xml("Time and room", "body", 2, 120, 560, 840, 47, TAG, "13:15 · Room"))
     L["up-next"] = layouts[10]
     return L
 
@@ -401,7 +401,7 @@ def build_slides(prs, L):
     fill(s, 1, "Shiv Bhonde")
     fill(s, 2, "@shivbhonde on X and GitHub")
     fill(s, 3, "buidlguidl.com")
-    add_highlight(s, 116, 687, 356, 63, 7)
+    add_highlight(s, 116, 655, 356, 63, 7)
 
     s = prs.slides.add_slide(L["up-next"])
     fill(s, 0, "Building on Ethereum with agents")

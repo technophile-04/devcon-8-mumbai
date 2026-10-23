@@ -51,14 +51,11 @@ mark { background: var(--lime); color: var(--ink); padding: 0.02em 0.16em; margi
 /* ---- cover slots: title, closing, up next (slides 1, 10, 11) ----
    corner tag top-right on the wordmark's line; title bottom-anchored (grows upward) with the speaker block fixed below it */
 .cover .corner { left: 720px; top: 104px; width: 1080px; text-align: right; }
-.cover .cover-title { left: 120px; bottom: 488px; width: 840px; }      /* text bottom at y 592, up to four lines above it */
-.cover .name   { left: 120px; top: 648px; width: 840px; }
-.cover .handle { left: 120px; top: 712px; width: 840px; }
-/* closing: Thanks is one line, so the group sits higher to make room for the link above the art */
-.cover.closing .cover-title { bottom: 608px; }                          /* text bottom at y 472 */
-.cover.closing .name   { top: 528px; }
-.cover.closing .handle { top: 592px; }
-.cover.closing .link   { left: 120px; top: 688px; width: 840px; }
+.cover .cover-title { left: 120px; bottom: 640px; width: 1150px; }     /* text bottom at y 440: two lines in the clear sky above the art */
+.cover .name   { left: 120px; top: 496px; width: 840px; }
+.cover .handle { left: 120px; top: 560px; width: 840px; }
+/* closing: same title line and speaker block as the title slide, with the link below */
+.cover.closing .link   { left: 120px; top: 656px; width: 840px; }
 
 /* ---- content slots ---- */
 .content .heading, .dark .heading { left: 120px; top: 120px; width: 1680px; }
