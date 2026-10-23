@@ -1,0 +1,57 @@
+/* Generated from design/tokens.json by build/tokens.py. Edit the JSON, then run build/build.sh. */
+:root {
+  /* colours */
+  --color-ink: #182232;  /* all text on light grounds, arrows, the dark ground */
+  --color-paper: #FFFCFC;  /* text on the dark ground, cards */
+  --color-ground: #EBECFE;  /* the content ground, from buidlguidl.com; already baked into content.png */
+  --color-lavender: #D8DCFF;  /* panels, diagram boxes */
+  --color-peach: #FFD4B5;  /* panels, diagram boxes */
+  --color-pale-lime: #EAFFA9;  /* panels, diagram boxes */
+  --color-periwinkle: #808CFF;  /* bullets, the quote bar, number pills */
+  --color-periwinkle-light: #9FA9FF;  /* prompt glyphs and labels on the dark ground */
+  --color-orange: #FF6E1D;  /* number pills, with ink text */
+  --color-lime: #B5DC3A;  /* the highlight marker, always with ink text; the lime button on buidlguidl.com */
+  --color-sky-top: #D0E5EF;  /* top of the cover gradient, from the buidlguidl.com hero; baked into cover.png */
+  --color-sky-bottom: #EAF7D1;  /* bottom of the cover gradient; baked into cover.png */
+  /* fonts */
+  --font-family-sans: "Space Grotesk", sans-serif;  /* headings, body, labels. SIL Open Font License, in fonts/space-grotesk */
+  --font-family-mono: "Space Mono", monospace;  /* code, tags, handles. SIL Open Font License, in fonts/space-mono */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;  /* body medium and labels. pptx has no 500, see the pptxBold flag on each type style */
+  --font-weight-bold: 700;
+  /* type styles: a font shorthand per role, then its parts */
+  --type-display: 700 120px/1.05 var(--font-family-sans);  /* statement, section title */
+  --type-display-size: 120px; --type-display-line: 1.05; --type-display-weight: 700; --type-display-family: var(--font-family-sans);
+  --type-cover-title: 700 96px/1.05 var(--font-family-sans);  /* title, closing, up next: two lines in a 1150 wide box above the art */
+  --type-cover-title-size: 96px; --type-cover-title-line: 1.05; --type-cover-title-weight: 700; --type-cover-title-family: var(--font-family-sans);
+  --type-cover-title-long: 700 80px/1.05 var(--font-family-sans);  /* a cover title that needs three lines, so it stays in the box and clear of the wordmark */
+  --type-cover-title-long-size: 80px; --type-cover-title-long-line: 1.05; --type-cover-title-long-weight: 700; --type-cover-title-long-family: var(--font-family-sans);
+  --type-heading: 700 80px/1.1 var(--font-family-sans);  /* every content heading */
+  --type-heading-size: 80px; --type-heading-line: 1.1; --type-heading-weight: 700; --type-heading-family: var(--font-family-sans);
+  --type-quote: 700 80px/1.15 var(--font-family-sans);  /* the quote slide */
+  --type-quote-size: 80px; --type-quote-line: 1.15; --type-quote-weight: 700; --type-quote-family: var(--font-family-sans);
+  --type-body: 400 48px/1.3 var(--font-family-sans);  /* everything the audience must read; nothing readable goes smaller */
+  --type-body-size: 48px; --type-body-line: 1.3; --type-body-weight: 400; --type-body-family: var(--font-family-sans);
+  --type-body-medium: 500 48px/1.3 var(--font-family-sans);  /* speaker name, card titles, diagram box text, quote author */
+  --type-body-medium-size: 48px; --type-body-medium-line: 1.3; --type-body-medium-weight: 500; --type-body-medium-family: var(--font-family-sans);
+  --type-label: 500 36px/1.3 var(--font-family-sans);  /* credits, part numbers, pill numbers, captions under diagram boxes. Never for a point you are making */
+  --type-label-size: 36px; --type-label-line: 1.3; --type-label-weight: 500; --type-label-family: var(--font-family-sans);
+  --type-tag: 400 36px/1.3 var(--font-family-mono);  /* the corner tags, the event line, handles, time and room on cover slides, code identifiers in captions */
+  --type-tag-size: 36px; --type-tag-line: 1.3; --type-tag-weight: 400; --type-tag-family: var(--font-family-mono);
+  --type-code: 400 44px/1.45 var(--font-family-mono);  /* code and terminal lines */
+  --type-code-size: 44px; --type-code-line: 1.45; --type-code-weight: 400; --type-code-family: var(--font-family-mono);
+  /* radius, canvas, margins, marks, highlight */
+  --radius-panel: 32px;  /* cards, the image panel, diagram boxes */
+  --radius-image: 24px;  /* an image inside a panel, a post screenshot */
+  --radius-pill: 999px;  /* number pills: fully round */
+  --canvas-width: 1920px;
+  --canvas-height: 1080px;  /* with width, the 16:9 canvas every position is measured on; 10 x 5.625 in as a pptx */
+  --space-margin-x: 120px;  /* left and right margin; nothing readable sits outside it */
+  --space-margin-y: 96px;  /* top and bottom margin; the marks sit inside the top band */
+  --mark-wordmark-height: 64px;
+  --mark-castle-height: 44px;  /* also the line box of the Devcon 8 tag, so both centre on the same line */
+  --mark-band-top: 26px;  /* top edge of the castle and the tag: centred on the middle of the top margin band */
+  --highlight-overhang: 0.08em;  /* how far the marker extends past the words on each side */
+  --highlight-pad-y: 0.02em;  /* marker above and below the text */
+  --highlight-radius: 0.14em;  /* corner radius of the marker */
+}

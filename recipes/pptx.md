@@ -6,7 +6,7 @@ Fill `template/buidlguidl-devcon8.pptx` with python-pptx. The result opens in Po
 
 Eleven layouts, named as in AGENTS.md: `Title`, `Statement`, `Heading + body`, and so on. Each layout carries its background as a true slide background, draws its fixed shapes, the event line, the image panel, the cards and pills and the quote bar, and holds text placeholders already set to the kit's fonts, sizes, colours, line heights, alignment and bullets. Text you type inherits all of it, so you set only words. The template opens with one example slide per layout, the reference deck's content; delete those at the end.
 
-The slide is 10 x 5.625 in, so 1 px on the 1920 canvas is 4762.5 EMU and 0.375 pt: `Emu(round(px * 4762.5))` for a position, `Pt(px * 0.375)` for a size you set by hand. pptx has no weight 500, so "body medium" is Space Grotesk Bold in the placeholders.
+The slide is 10 x 5.625 in, so 1 px on the 1920 canvas is 4762.5 EMU and 0.375 pt: `Emu(round(px * 4762.5))` for a position, `Pt(px * 0.375)` for a size you set by hand. Any colour or size you set yourself comes from `design/tokens.json`. pptx has no weight 500, so "body medium" is Space Grotesk Bold in the placeholders and label is Regular.
 
 ## Placeholders
 
@@ -31,7 +31,7 @@ The slide is 10 x 5.625 in, so 1 px on the 1920 canvas is 4762.5 EMU and 0.375 p
 1. Open the template and fetch layouts by name: `prs.slide_layouts.get_by_name("Heading + body")`.
 2. Add one slide per layout with `prs.slides.add_slide(layout)` and set the text of its placeholders. On Title, Closing and Up next also set the title's vertical anchor to bottom on the slide itself, as below, so a long title grows upward in every app that opens the file.
 3. Highlight a phrase with a run-level `a:highlight`, as below; Google Slides shows it as a text highlight. The shape alternative, a lime rounded rectangle measured to the words and sent behind the text, is `add_highlight` in `build/build_pptx.py`.
-4. On a Code slide, split the prompt glyph into its own run and colour it periwinkle light `9FA9FF`.
+4. On a Code slide, split the prompt glyph into its own run and colour it periwinkle light, `9FA9FF` in the tokens.
 5. Delete the eleven example slides, then save `decks/<talk-slug>.pptx`.
 
 ```python
@@ -67,7 +67,7 @@ lines(s.placeholders[1], "First point, one short line",
 
 s = add("Statement")
 lines(s.placeholders[1], "One sentence with a highlighted phrase in it.")
-p = s.placeholders[1].text_frame.paragraphs[0]       # one lime highlight: split the phrase into its own run
+p = s.placeholders[1].text_frame.paragraphs[0]       # one lime highlight (color.lime in the tokens): split the phrase into its own run
 p.runs[0].text = "One sentence with a "
 hl = p.add_run(); hl.text = "highlighted phrase"
 hl._r.get_or_add_rPr().append(parse_xml(
@@ -98,8 +98,8 @@ Run it from the kit root: `uv run --with python-pptx python build_deck.py`, or `
 
 ## Look at the slides
 
-With LibreOffice installed: `soffice --headless --convert-to pdf --outdir decks decks/<talk-slug>.pptx`, then `pdftoppm -png -r 192 decks/<talk-slug>.pdf decks/<talk-slug>` for one 1920x1080 PNG per slide. LibreOffice substitutes any font it lacks, so install Space Grotesk and Space Mono first, or judge positions rather than glyphs. Without LibreOffice, open the file in Keynote, PowerPoint or Google Slides and page through it at full size.
+With LibreOffice installed: `soffice --headless --convert-to pdf --outdir decks decks/<talk-slug>.pptx`, then `pdftoppm -png -r 192 decks/<talk-slug>.pdf decks/<talk-slug>` for one 1920x1080 PNG per slide. LibreOffice substitutes any font it lacks, so install Space Grotesk and Space Mono from `fonts/` first, or judge positions rather than glyphs. Without LibreOffice, open the file in Keynote, PowerPoint or Google Slides and page through it at full size.
 
 ## Tell the speaker
 
-PowerPoint and Keynote need Space Grotesk and Space Mono installed on the presenting laptop, from fonts.google.com. A speaker who presents from Google Slides continues with [google-slides.md](google-slides.md).
+PowerPoint and Keynote need Space Grotesk and Space Mono installed on the presenting laptop. The files and the install steps are in [fonts/](../fonts/README.md). A speaker who presents from Google Slides continues with [google-slides.md](google-slides.md).

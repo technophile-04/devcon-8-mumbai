@@ -5,10 +5,11 @@ Needs backgrounds/ (build/backgrounds.py) and reference/sample/se2-ui.png.
 
 Slide size 10 x 5.625 in, the size of the Google Slides deck Devcon gives
 every speaker, so an import into it rescales nothing. Every px value below is
-on the 1920x1080 canvas (1 px = 4762.5 EMU = 0.375 pt). Layouts carry the
-backgrounds as true slide backgrounds plus text placeholders in the kit's
-fonts and sizes. The example slides use those layouts so people can
-duplicate them.
+on the 1920x1080 canvas (1 px = 4762.5 EMU = 0.375 pt). Colours, fonts, type
+styles and radii come from design/tokens.json through build/tokens.py; the
+positions are the layouts in AGENTS.md. Layouts carry the backgrounds as true
+slide backgrounds plus text placeholders in the kit's fonts and sizes. The
+example slides use those layouts so people can duplicate them.
 """
 import re
 from pathlib import Path
@@ -22,6 +23,8 @@ from pptx.oxml import parse_xml
 from pptx.oxml.ns import nsdecls, qn
 from pptx.util import Emu, Pt
 
+from tokens import Tokens
+
 KIT = Path(__file__).resolve().parent.parent
 BG = KIT / "backgrounds"
 OUT = KIT / "template" / "buidlguidl-devcon8.pptx"
@@ -30,16 +33,27 @@ SAMPLE_IMAGE = KIT / "reference" / "sample" / "se2-ui.png"
 # ---- the one event-line token (also in reference/deck.html and AGENTS.md) ----
 EVENT_LINE = "Devcon 8 · Builder Enablement & BuidlGuidl"
 
-# ---- fonts (typeface strings as Google Slides resolves them) ----
-HEAD_FONT = "Space Grotesk"  # bold; the font Google Slides has, so the demo matches what shows on stage
-BODY_FONT = "Space Grotesk"
-CODE_FONT = "Space Mono"
+# ---- tokens: design/tokens.json is the only place a colour, font or size is defined ----
+T = Tokens()
+BODY_FONT = T.family("sans")     # typeface strings as Google Slides resolves them
+CODE_FONT = T.family("mono")
 
-INK, PAPER, GROUND, LAVENDER, PEACH = "182232", "FFFCFC", "EBECFE", "D8DCFF", "FFD4B5"
-PERIWINKLE, PERIWINKLE_LIGHT, ORANGE, LIME, PALE_LIME = "808CFF", "9FA9FF", "FF6E1D", "B5DC3A", "EAFFA9"
 
-PX = 4762.5     # EMU per canvas px (914400 EMU per in, 10 in for 1920 px)
-PT = 0.375      # pt per canvas px (720 pt across 1920 px)
+def hexval(name):
+    """A colour as the bare RRGGBB string DrawingML wants."""
+    return T.hex(name).lstrip("#")
+
+
+INK, PAPER, GROUND, LAVENDER, PEACH = (hexval(n) for n in ("ink", "paper", "ground", "lavender", "peach"))
+PERIWINKLE, PERIWINKLE_LIGHT, ORANGE, LIME, PALE_LIME = (hexval(n) for n in ("periwinkle", "periwinkle-light", "orange", "lime", "pale-lime"))
+RADIUS = T.px("radius.panel")
+IMAGE_RADIUS = T.px("radius.image")
+HIGHLIGHT_RADIUS = T.value("highlight.radius")   # em of the text size
+
+CANVAS_W, CANVAS_H = T.px("canvas.width"), T.px("canvas.height")
+SLIDE_W_EMU = 9144000                 # 10 in
+PX = SLIDE_W_EMU / CANVAS_W           # EMU per canvas px: 4762.5
+PT = 720 / CANVAS_W                   # pt per canvas px: 0.375 (10 in is 720 pt)
 
 
 def px(v):
@@ -56,16 +70,16 @@ def hpt(v):
     return round(v * PT * 100)
 
 
-# type scale: (size px, line-height px, font, bold)
-DISPLAY = (120, 126, HEAD_FONT, True)
-COVER_TITLE = (96, 101, HEAD_FONT, True)
-HEADING = (80, 88, HEAD_FONT, True)
-QUOTE = (80, 92, HEAD_FONT, True)
-BODY = (48, 62, BODY_FONT, False)
-BODY_BOLD = (48, 62, BODY_FONT, True)   # the HTML uses weight 500; pptx has no 500, so bold
-LABEL = (36, 47, BODY_FONT, False)
-TAG = (36, 47, CODE_FONT, False)        # corner tags, the event line, handles
-CODE = (44, 64, CODE_FONT, False)
+
+def style(role):
+    """A type token as (size px, line-height px, font, bold). pptx has no weight 500, so each token says
+    whether it draws bold (body medium) or regular (label) through its pptxBold flag."""
+    s = T.style(role)
+    return (s["size"], s["line_px"], s["family"], s["bold"])
+
+
+DISPLAY, COVER_TITLE, HEADING, QUOTE = style("display"), style("cover-title"), style("heading"), style("quote")
+BODY, BODY_BOLD, LABEL, TAG, CODE = style("body"), style("body-medium"), style("label"), style("tag"), style("code")
 
 NS = nsdecls("p", "a", "r")
 _id = [100]
@@ -174,15 +188,15 @@ def build_layouts(prs):
 
     t = reset_layout(layouts[3], "Heading + image", "content.png")
     t.append(placeholder_xml("Heading", "title", 0, 120, 120, 1680, 96, HEADING, "Heading"))
-    t.append(rect_xml("Image panel", 120, 256, 1680, 728, LAVENDER, 32))
+    t.append(rect_xml("Image panel", 120, 256, 1680, 728, LAVENDER, RADIUS))
     t.append(placeholder_xml("Image", "pic", 1, 160, 296, 1600, 648, BODY, ""))
     L["heading-image"] = layouts[3]
 
     t = reset_layout(layouts[4], "Three columns", "content.png")
     t.append(placeholder_xml("Heading", "title", 0, 120, 120, 1680, 96, HEADING, "Heading"))
     for i, (x, fill) in enumerate(((120, PERIWINKLE), (696, ORANGE), (1272, LIME))):
-        t.append(rect_xml(f"Card {i + 1}", x, 260, 528, 520, PAPER, 32))
-        t.append(rect_xml(f"Pill {i + 1}", x + 48, 308, 96, 64, fill, 32))
+        t.append(rect_xml(f"Card {i + 1}", x, 260, 528, 520, PAPER, RADIUS))
+        t.append(rect_xml(f"Pill {i + 1}", x + 48, 308, 96, 64, fill, 64 // 2))   # half its height: fully round
         t.append(textbox_xml(f"Pill number {i + 1}", x + 48, 322, 96, 40, LABEL, f"0{i + 1}"))
         t[-1].txBody.find(qn("a:lstStyle")).find(qn("a:lvl1pPr")).set("algn", "ctr")
         t.append(placeholder_xml(f"Column {i + 1} title", "body", 1 + i * 2, x + 48, 404, 432, 120, BODY_BOLD, "Column title"))
@@ -246,10 +260,12 @@ def anchor_bottom(shape):
     shape.text_frame.vertical_anchor = MSO_ANCHOR.BOTTOM
 
 
-def add_highlight(slide, x, y, w, h, radius):
+def add_highlight(slide, x, y, w, h, text_size):
     """Lime marker behind a phrase. Boxes are measured from the HTML render of the same text
-    (reference/deck.html), so they line up with Space Grotesk, which Google Slides has built in.
-    A run-level a:highlight would follow the text, but it cannot have rounded corners or the 0.08em overhang."""
+    (reference/deck.html), so they line up with Space Grotesk, which Google Slides has built in. The corner
+    radius is the highlight token times the text size. A run-level a:highlight would follow the text, but it
+    cannot have rounded corners or the token's overhang."""
+    radius = round(HIGHLIGHT_RADIUS * text_size)
     shp = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, px(x), px(y), px(w), px(h))
     shp.name = "Highlight"
     shp.adjustments[0] = radius / min(w, h)
@@ -283,7 +299,7 @@ def style_runs(shape, style, color=INK, align=None):
                 el.set("typeface", font)
 
 
-def add_box(slide, x, y, w, h, fill_hex, radius=32, text=None, style=BODY_BOLD, pad=40):
+def add_box(slide, x, y, w, h, fill_hex, radius=RADIUS, text=None, style=BODY_BOLD, pad=40):
     shp = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, px(x), px(y), px(w), px(h))
     shp.adjustments[0] = radius / min(w, h)
     shp.fill.solid()
@@ -338,7 +354,7 @@ def build_slides(prs, L):
 
     s = prs.slides.add_slide(L["statement"])
     fill(s, 1, "An agent can scaffold a dapp. Shipping it is still your job.")
-    add_highlight(s, 471, 410, 670, 157, 17)
+    add_highlight(s, 471, 410, 670, 157, DISPLAY[0])
     fill(s, 2, "What that looks like with Scaffold-ETH 2, step by step.")
 
     s = prs.slides.add_slide(L["heading-body"])
@@ -352,7 +368,7 @@ def build_slides(prs, L):
     pic = s.shapes.add_picture(str(SAMPLE_IMAGE), px(516), px(296), px(889), px(648))   # 1026x748 scaled to fit 648 tall
     pic._element.spPr.prstGeom.set("prst", "roundRect")
     av = pic._element.spPr.prstGeom.find(qn("a:avLst"))
-    av.append(parse_xml(f'<a:gd {nsdecls("a")} name="adj" fmla="val {round(24 / 648 * 50000)}"/>'))
+    av.append(parse_xml(f'<a:gd {nsdecls("a")} name="adj" fmla="val {round(IMAGE_RADIUS / 648 * 50000)}"/>'))
 
     s = prs.slides.add_slide(L["three-columns"])
     fill(s, 0, "Three places to start")
@@ -385,13 +401,13 @@ def build_slides(prs, L):
 
     s = prs.slides.add_slide(L["diagram"])
     fill(s, 0, "From contract to UI in Scaffold-ETH 2")
-    boxes = (("Write the contract", LAVENDER, "Solidity, with Hardhat or Foundry", BODY_FONT),
-             ("Deploy it", PEACH, "yarn deploy writes deployedContracts.ts", CODE_FONT),
-             ("Read and write from React", PALE_LIME, "useScaffoldReadContract", CODE_FONT))
-    for i, (label, fill_hex, under, under_font) in enumerate(boxes):
+    boxes = (("Write the contract", LAVENDER, "Solidity, with Hardhat or Foundry", LABEL),
+             ("Deploy it", PEACH, "yarn deploy writes deployedContracts.ts", TAG),       # code identifiers in the tag style
+             ("Read and write from React", PALE_LIME, "useScaffoldReadContract", TAG))
+    for i, (label, fill_hex, under, under_style) in enumerate(boxes):
         x = 120 + i * 580
         add_box(s, x, 400, 520, 260, fill_hex, text=label)
-        add_text(s, x, 692, 520, 100, under, style=(36, 47, under_font, False))
+        add_text(s, x, 692, 520, 100, under, style=under_style)
         if i < 2:
             add_arrow(s, x + 524, 530, x + 574)
 
@@ -401,7 +417,7 @@ def build_slides(prs, L):
     fill(s, 1, "Shiv Bhonde")
     fill(s, 2, "@shivbhonde on X and GitHub")
     fill(s, 3, "buidlguidl.com")
-    add_highlight(s, 116, 655, 356, 63, 7)
+    add_highlight(s, 116, 655, 356, 63, BODY[0])
 
     s = prs.slides.add_slide(L["up-next"])
     fill(s, 0, "Building on Ethereum with agents")
@@ -415,7 +431,7 @@ def patch_theme(prs):
     from pptx.opc.constants import RELATIONSHIP_TYPE as RT
     theme = prs.slide_master.part.part_related_by(RT.THEME)
     xml = theme.blob.decode("utf-8")
-    xml = re.sub(r'(<a:majorFont>\s*<a:latin typeface=")[^"]*', rf'\g<1>{HEAD_FONT}', xml)
+    xml = re.sub(r'(<a:majorFont>\s*<a:latin typeface=")[^"]*', rf'\g<1>{BODY_FONT}', xml)
     xml = re.sub(r'(<a:minorFont>\s*<a:latin typeface=")[^"]*', rf'\g<1>{BODY_FONT}', xml)
     for tag, val in (("dk1", INK), ("lt1", PAPER), ("dk2", INK), ("lt2", GROUND), ("accent1", PERIWINKLE), ("accent2", ORANGE),
                      ("accent3", LIME), ("accent4", LAVENDER), ("accent5", PEACH), ("accent6", PERIWINKLE_LIGHT)):
@@ -432,8 +448,8 @@ def patch_theme(prs):
 
 def main():
     prs = Presentation()
-    prs.slide_width = Emu(9144000)    # 10 in
-    prs.slide_height = Emu(5143500)   # 5.625 in
+    prs.slide_width = Emu(SLIDE_W_EMU)                                  # 10 in
+    prs.slide_height = Emu(round(SLIDE_W_EMU * CANVAS_H / CANVAS_W))    # 5.625 in
     patch_theme(prs)
     layouts = build_layouts(prs)
     build_slides(prs, layouts)

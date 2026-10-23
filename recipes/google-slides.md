@@ -10,7 +10,7 @@ Build `decks/<talk-slug>.pptx` with [pptx.md](pptx.md). Upload it to Google Driv
 
 For an agent that edits Google Slides directly, or a speaker building by hand: make a copy of the BuidlGuidl master, https://docs.google.com/presentation/d/136xTO2H0B167bFT280bk2gp4YB4F5S2wskYhJqDga1U/copy (the link opens Google's copy dialog), and build in the copy. It has one layout per slide type with the backgrounds, fonts and sizes set, plus an example slide of each. Duplicate the example you want, replace the text, delete the rest. Starting from the master keeps every slide on the kit's layouts.
 
-Highlight a phrase by selecting the words and setting Highlight color to #B5DC3A.
+Highlight a phrase by selecting the words and setting Highlight color to lime, `#B5DC3A` (`color.lime` in `design/tokens.json`).
 
 ## Look at the slides
 

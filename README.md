@@ -33,6 +33,12 @@ flowchart LR
 
 Locked: the backgrounds and the marks baked into them, the fonts, the colours, the type scale, the margins, and the title and closing slides. On the title slide you change three things: the talk title, your name and your handle.
 
+## The look
+
+Every colour, font, size and radius is a token in [design/tokens.json](design/tokens.json), in the W3C Design Tokens format that Figma's Tokens Studio and Style Dictionary read. The style sheet shows them all; open it at https://technophile-04.github.io/devcon-8-mumbai/design/style-sheet.html or in the picture below. The two fonts, Space Grotesk and Space Mono, ship in [fonts/](fonts/) under the SIL Open Font License with the steps to install them.
+
+<a href="https://technophile-04.github.io/devcon-8-mumbai/design/style-sheet.html"><img src="design/style-sheet.png" width="720" alt="Style sheet: colour swatches, type specimens, marks, canvas and margins, highlight, cards and tags"></a>
+
 ## The content
 
 | | |
@@ -46,11 +52,11 @@ Yours: everything between title and closing, in any order, with at most one lime
 
 | You present from | Build | On the presenting laptop |
 | --- | --- | --- |
-| PowerPoint or Keynote | pptx, [recipe](recipes/pptx.md) | install Space Grotesk and Space Mono from fonts.google.com |
+| PowerPoint or Keynote | pptx, [recipe](recipes/pptx.md) | install the two fonts from [fonts/](fonts/) |
 | Google Slides, your own or the Devcon link | the pptx saved as Google Slides, or a copy of the master, [recipe](recipes/google-slides.md) | nothing, the fonts are built in |
-| a browser on your own laptop | HTML, [recipe](recipes/html.md) | internet for Google Fonts, or the two fonts installed |
+| a browser on your own laptop | HTML, [recipe](recipes/html.md) | internet for Google Fonts, or `fonts/fonts.css` linked for offline |
 
-Another tool, like Reveal.js, Slidev or Figma, uses the same colours, fonts, backgrounds and positions, all listed in [AGENTS.md](AGENTS.md). Match the renders in `reference/slides/`.
+Another tool, like Reveal.js, Slidev or Figma, uses the same tokens from [design/tokens.json](design/tokens.json) and the backgrounds and positions in [AGENTS.md](AGENTS.md). Match the renders in `reference/slides/`.
 
 ## Build by hand
 
@@ -62,4 +68,4 @@ Sessions are recorded, body text is 24 pt or larger, QR codes to non-compliant c
 
 ## Regenerating the kit
 
-For maintainers. `build/build.sh` rebuilds the logo PNGs, the "Devcon 8" tag, the backgrounds, the slide renders, the contact sheet and the pptx. The reference PNGs are rendered from `reference/deck.html`. It needs Google Chrome, Python 3 with Pillow, `uv` (which fetches python-pptx), and network for Google Fonts. The source art in `build/src/` comes from the buidlguidl.com repo; the castle mark in `logos/` is cut from the wordmark. After a rebuild, upload the new pptx to Google Drive and replace the master.
+For maintainers. A change to the look starts in `design/tokens.json` and nowhere else. `build/build.sh` then regenerates everything from it: `design/tokens.css` for the reference deck, the logo PNGs and the "Devcon 8" tag, the backgrounds, the slide renders, the contact sheet, the style sheet page and its PNG, and the pptx. Positions live in `AGENTS.md` and in `reference/deck.html` and `build/build_pptx.py`, which also read the tokens. It needs Google Chrome, Python 3 with Pillow, `uv` (which fetches python-pptx), and network for Google Fonts. The source art in `build/src/` comes from the buidlguidl.com repo; the castle mark in `logos/` is cut from the wordmark. After a rebuild, upload the new pptx to Google Drive and replace the master.

@@ -1,11 +1,11 @@
 # Recipe: HTML
 
-Build from `reference/deck.html`. It already has the 1920x1080 canvas, the backgrounds, the type scale, every layout's positions as CSS, and the Google Fonts link for Space Grotesk and Space Mono.
+Build from `reference/deck.html`. It already has the 1920x1080 canvas, the backgrounds, every layout's positions as CSS, and the Google Fonts link for Space Grotesk and Space Mono. Its colours, fonts and sizes are the custom properties in `design/tokens.css`, generated from `design/tokens.json`.
 
 ## Steps
 
-1. Create `decks/` and copy `reference/deck.html` to `decks/<talk-slug>.html`. Set its `<title>` to the talk title. The deck loads `../backgrounds/*.png`, so it runs from inside the kit folder: present from the whole kit folder, and put your own images in `decks/img/`.
-2. Keep the kit's `<style>` block as it is; your additions, like the presenting and print rules below, go in a second `<style>` block before `</body>`. Each `<section class="slide ...">` is one layout, named in the comment above it and in `data-name`. Copy the sections you need, in your order, and replace their text; delete the sample sections you do not use. Every element sits in one of the section's existing slots, since the slots are the layout's positions.
+1. Create `decks/` and copy `reference/deck.html` to `decks/<talk-slug>.html`. Set its `<title>` to the talk title. The deck loads `../backgrounds/*.png` and `../design/tokens.css`, so it runs from inside the kit folder: present from the whole kit folder, and put your own images in `decks/img/`.
+2. Keep the kit's `<link>` lines and `<style>` block as they are; your additions, like the presenting and print rules below, go in a second `<style>` block before `</body>`. Use the custom properties, like `var(--color-lime)` or `var(--type-label)`, for any colour or size you add. Each `<section class="slide ...">` is one layout, named in the comment above it and in `data-name`. Copy the sections you need, in your order, and replace their text; delete the sample sections you do not use. Every element sits in one of the section's existing slots, since the slots are the layout's positions.
 3. Highlight a phrase by wrapping it in `<mark>`. An image goes in `.panel` as an `<img>` with its own width and height, scaled to fit 1600x648.
 4. For a Diagram, copy the `.flow` block: boxes are `.box` with a colour class at left 0, 580 and 1160, captions are `.under` at the same lefts, and the arrows are the inline SVGs at left 520 and 1100.
 5. Keep the script at the bottom. `EVENT_LINE` fills the corner of Title and Closing, and `?slide=N` shows one slide alone.
@@ -43,7 +43,7 @@ The file shows every slide in a column. To present from the browser, add this be
 </script>
 ```
 
-Offline, the fonts come from the presenting laptop instead of Google Fonts: install Space Grotesk and Space Mono from fonts.google.com, and the `font-family` names resolve to the installed copies.
+Offline, load the fonts from the kit instead of Google Fonts: replace the `fonts.googleapis.com` link with `<link rel="stylesheet" href="../fonts/fonts.css">`, which reads Space Grotesk and Space Mono from `fonts/`.
 
 ## PDF backup
 
