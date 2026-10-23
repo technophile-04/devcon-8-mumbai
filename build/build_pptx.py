@@ -27,7 +27,7 @@ BG = KIT / "backgrounds"
 OUT = KIT / "template" / "buidlguidl-devcon8.pptx"
 SAMPLE_IMAGE = KIT / "reference" / "sample" / "se2-ui.png"
 
-# ---- the one event-line token (also in reference/deck.html and SKILL.md) ----
+# ---- the one event-line token (also in reference/deck.html and AGENTS.md) ----
 EVENT_LINE = "Devcon 8 · Builder Enablement & BuidlGuidl"
 
 # ---- fonts (typeface strings as Google Slides resolves them) ----

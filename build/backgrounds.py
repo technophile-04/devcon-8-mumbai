@@ -17,7 +17,7 @@ GROUND = (0xEB, 0xEC, 0xFE)       # content ground, the buidlguidl.com page back
 SKY_TOP = (0xD0, 0xE5, 0xEF)      # Figma hero gradient, top
 SKY_BOTTOM = (0xEA, 0xF7, 0xD1)   # Figma hero gradient, bottom
 
-# Placement choices (see SKILL.md "Backgrounds")
+# Placement choices (see AGENTS.md "Backgrounds")
 HERO_PUSH = 40          # px the hero art is pushed below the canvas bottom
 COVER_LOGO_H = 64       # logo height on cover.png and section.png, at the top-left margin
 CASTLE_H = 44           # castle mark height on content backgrounds, top-left of the top margin band

@@ -1,6 +1,8 @@
 # BuidlGuidl slide kit for Devcon 8
 
-BuidlGuidl runs one day of community-led sessions at Devcon 8 in Mumbai. Each speaker builds slides with their own tool or agent, so this kit makes every deck come out looking like one family. It holds four background images with the BuidlGuidl marks already in place (the wordmark on cover and section slides, a small castle and a "Devcon 8" tag on content slides), the colours and sizes, a reference deck of every layout, and a pptx template whose layouts carry all of that. We lock the frame, you own the content.
+BuidlGuidl runs a day of community talks at Devcon 8 in Mumbai. Every speaker builds their own slides, and this kit makes all of them look like one family: four backgrounds with the BuidlGuidl marks already in place, the colours, fonts and sizes, eleven layouts, a reference deck, and a pptx template. Build in whatever format you present from.
+
+**The frame is locked. The content is yours.**
 
 ![All eleven layouts](reference/contact-sheet.png)
 
@@ -9,37 +11,54 @@ BuidlGuidl runs one day of community-led sessions at Devcon 8 in Mumbai. Each sp
 Paste one line into Claude Code, Codex, Claude chat, or whatever builds your slides:
 
 ```
-Clone https://github.com/technophile-04/devcon-8-mumbai and follow its SKILL.md to build my slides for <talk title>.
+Clone https://github.com/technophile-04/devcon-8-mumbai and follow its AGENTS.md to build my slides for <talk title>.
 ```
 
-`SKILL.md` has the whole system in one file. The agent fills `template/buidlguidl-devcon8.pptx` from its layouts, saves `decks/<talk-slug>.pptx`, and checks its own slides against the rules. You upload that file to Google Drive and open it with Google Slides (File > Save as Google Slides). An agent that can edit Google Slides directly copies the master above instead.
+Add your name, your handle and the format you want, if you have one. The agent picks a format otherwise, builds the deck in the kit's layouts, and checks every slide against the rules before handing it back.
 
-## Or build it by hand
+```mermaid
+flowchart LR
+  A[your talk, one line] --> B[agent reads AGENTS.md]
+  B --> C[pptx]
+  B --> D[Google Slides]
+  B --> E[HTML]
+  C --> F[you present]
+  D --> F
+  E --> F
+```
 
-Make a copy of the BuidlGuidl Google Slides master, GOOGLE_SLIDES_MASTER_URL, and build in the copy. It has one layout per slide type with the backgrounds, fonts and sizes already set, plus an example slide of each. Duplicate the example you want, replace the text, delete the rest. Every layout is shown at https://technophile-04.github.io/devcon-8-mumbai/reference/deck.html.
+## The frame
 
-## Hand it in
+<img src="reference/slides/01-title.png" width="720" alt="Title slide: the wordmark, the event line, the title in the sky, the name and handle below">
 
-Devcon wants final slides by Oct 27. Open your Devcon link, the one Devcon emailed you, of the form https://devcon.org/presentation/devcon8/<code>/. Choose File > Import slides, pick your deck, select all slides, tick "Keep original theme", import, then delete Devcon's placeholder slides. Devcon's guidelines say the final deck must live in that link; if you built your slides elsewhere, import them into the link. The guidelines are at https://ef-events.notion.site/Devcon-8-India-Speaker-Guidelines-3e3638cdc41580e2abd8de93aeb659be.
+Locked: the backgrounds and the marks baked into them, the fonts, the colours, the type scale, the margins, and the title and closing slides. On the title slide you change three things: the talk title, your name and your handle.
 
-## Fonts
+## The content
 
-Headings are Space Grotesk Bold, body is Space Grotesk, code and the small corner tags are Space Mono. Google Slides has all three built in, so there is nothing to install.
+| | |
+| --- | --- |
+| ![Statement](reference/slides/02-statement.png) | ![Heading and body](reference/slides/03-heading-body.png) |
+| ![Three columns](reference/slides/05-three-columns.png) | ![Code](reference/slides/07-code.png) |
 
-## Locked vs yours
+Yours: everything between title and closing, in any order, with at most one lime highlight per slide. The eight content layouts are statement, heading and body, heading and image, three columns, section divider, code, quote and diagram. Every layout is live at https://technophile-04.github.io/devcon-8-mumbai/reference/deck.html.
 
-Locked: the backgrounds, the marks baked into them, the fonts, the colours, the type scale, the margins, and the title, closing and up-next slides.
+## Formats
 
-Yours: everything on content slides. Pick from statement, heading and body, heading and image, three columns, section divider, code, quote, and diagram. Put them in any order. One highlighted phrase per slide at most.
+| You present from | Build | On the presenting laptop |
+| --- | --- | --- |
+| PowerPoint or Keynote | pptx, [recipe](recipes/pptx.md) | install Space Grotesk and Space Mono from fonts.google.com |
+| Google Slides, your own or the Devcon link | the pptx saved as Google Slides, or a copy of the master, [recipe](recipes/google-slides.md) | nothing, the fonts are built in |
+| a browser on your own laptop | HTML, [recipe](recipes/html.md) | internet for Google Fonts, or the two fonts installed |
 
-## Devcon rules that touch slides
+Another tool, like Keynote native, Reveal or Figma, uses the same colours, fonts, backgrounds and positions, all listed in [AGENTS.md](AGENTS.md). Match the renders in `reference/slides/`.
 
-- Sessions are recorded and streamed to YouTube, so the title slide is the first frame people see.
-- No QR codes or links to crypto products that are not compliant with Indian law.
-- Avoid calling digital assets "currency", "securities", "custodian" or "depositories".
-- Body text at least 24 pt.
+## Build by hand
 
-Source: https://devcon.org/Devcon8-Speaker-Guidelines-2026.pdf
+Copy the Google Slides master, GOOGLE_SLIDES_MASTER_URL, or open `template/buidlguidl-devcon8.pptx`. Both hold one layout per slide type and an example slide of each. Duplicate the example you want, replace the text, delete the rest.
+
+## Devcon rules
+
+Sessions are recorded, body text is 24 pt or larger, QR codes to non-compliant crypto products are out, and a few words are off limits. The full list is under Devcon rules in [AGENTS.md](AGENTS.md). Devcon wants final slides by Oct 27; the guidelines are at https://ef-events.notion.site/Devcon-8-India-Speaker-Guidelines-3e3638cdc41580e2abd8de93aeb659be.
 
 ## Regenerating the kit
 
