@@ -1,10 +1,8 @@
 # BuidlGuidl Devcon 8 slide kit
 
-Several speakers present back to back on BuidlGuidl's community day at Devcon 8, and every deck must look like one family. The kit does that with one rule:
+Several speakers present back to back on BuidlGuidl's community day at Devcon 8, and every deck must look the same. The kit splits each deck into two parts.
 
-**The frame is locked. The content is yours.**
-
-The frame is the four backgrounds with the BuidlGuidl marks baked in, the fonts, the colours, the type scale, the margins, and the title and closing slides. The content is what goes on the slides in between, which layouts you use, and in which order.
+The frame is fixed. It is the four backgrounds with the BuidlGuidl marks baked in, the fonts, the colours, the type scale, the margins, and the title and closing slides. The content is the speaker's: what goes on the slides in between, which layouts, and in which order.
 
 The kit lives at https://github.com/technophile-04/devcon-8-mumbai. The reference deck `reference/deck.html`, served at https://technophile-04.github.io/devcon-8-mumbai/reference/deck.html, shows every layout with sample content, and `reference/slides/*.png` plus `reference/contact-sheet.png` are its renders. They are the visual truth: in any format, build to match them. Every colour, font, type style, radius and margin is a token in `design/tokens.json`; take values from there, never from memory.
 
