@@ -35,9 +35,9 @@ Locked: the backgrounds and the marks baked into them, the fonts, the colours, t
 
 ## The look
 
-Every colour, font, size and radius is a token in [design/tokens.json](design/tokens.json), in the W3C Design Tokens format that Figma's Tokens Studio and Style Dictionary read. The style sheet shows them all; open it at https://technophile-04.github.io/devcon-8-mumbai/design/style-sheet.html or in the picture below. The two fonts, Space Grotesk and Space Mono, ship in [fonts/](fonts/) under the SIL Open Font License with the steps to install them.
+Every colour, font, size and radius is a token in [design/tokens.json](design/tokens.json), in the W3C Design Tokens format that Figma's Tokens Studio and Style Dictionary read. The card below is the palette, the type ladder and the marks on one screen. The full style sheet, with every token, its use, the margins and the highlight, is at https://technophile-04.github.io/devcon-8-mumbai/design/style-sheet.html and as `design/style-sheet.png`. The two fonts, Space Grotesk and Space Mono, ship in [fonts/](fonts/) under the SIL Open Font License with the steps to install them.
 
-<a href="https://technophile-04.github.io/devcon-8-mumbai/design/style-sheet.html"><img src="design/style-sheet.png" width="720" alt="Style sheet: colour swatches, type specimens, marks, canvas and margins, highlight, cards and tags"></a>
+<a href="https://technophile-04.github.io/devcon-8-mumbai/design/style-sheet.html"><img src="design/overview.png" width="720" alt="Overview card: the type ladder from display to code, the twelve colours with their hex values, and the marks in ink and white"></a>
 
 ## The content
 
@@ -68,4 +68,4 @@ Sessions are recorded, body text is 24 pt or larger, QR codes to non-compliant c
 
 ## Regenerating the kit
 
-For maintainers. A change to the look starts in `design/tokens.json` and nowhere else. `build/build.sh` then regenerates everything from it: `design/tokens.css` for the reference deck, the logo PNGs and the "Devcon 8" tag, the backgrounds, the slide renders, the contact sheet, the style sheet page and its PNG, and the pptx. Positions live in `AGENTS.md` and in `reference/deck.html` and `build/build_pptx.py`, which also read the tokens. It needs Google Chrome, Python 3 with Pillow, `uv` (which fetches python-pptx), and network for Google Fonts. The source art in `build/src/` comes from the buidlguidl.com repo; the castle mark in `logos/` is cut from the wordmark. After a rebuild, upload the new pptx to Google Drive and replace the master.
+For maintainers. A change to the look starts in `design/tokens.json` and nowhere else. `build/build.sh` then regenerates everything from it: `design/tokens.css` for the reference deck, the logo PNGs and the "Devcon 8" tag, the backgrounds, the slide renders, the contact sheet, the style sheet and the overview card as pages and PNGs, and the pptx. Positions live in `AGENTS.md` and in `reference/deck.html` and `build/build_pptx.py`, which also read the tokens. It needs Google Chrome, Python 3 with Pillow, `uv` (which fetches python-pptx), and network for Google Fonts. The source art in `build/src/` comes from the buidlguidl.com repo; the castle mark in `logos/` is cut from the wordmark. After a rebuild, upload the new pptx to Google Drive and replace the master.

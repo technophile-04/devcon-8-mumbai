@@ -65,11 +65,12 @@ Done when every slide has passed all ten checks and the speaker has the file pat
 | `design/tokens.json` | every colour, font, type style, radius, margin and mark size, with its use. The single source of truth, in the W3C Design Tokens format |
 | `design/tokens.css` | the same tokens as CSS custom properties, generated. `reference/deck.html` loads it |
 | `design/style-sheet.html` | every token rendered on one page, generated; `design/style-sheet.png` is its render and https://technophile-04.github.io/devcon-8-mumbai/design/style-sheet.html serves it |
+| `design/overview.html` | the palette, the type ladder and the marks on one 1920x1080 card, generated; `design/overview.png` is its render, shown in the README |
 | `fonts/` | Space Grotesk and Space Mono with their licenses, `fonts.css` to load them offline, and a readme on installing them |
 | `reference/deck.html` | every layout as a 1920x1080 slide with sample content; `?slide=N` shows the Nth slide alone |
 | `template/buidlguidl-devcon8.pptx` | the layouts as a pptx template, see recipes/pptx.md |
 | `recipes/` | one file per format: pptx, Google Slides, HTML |
-| `build/` | maintainer scripts that regenerate everything from the tokens: CSS, backgrounds, renders, style sheet and the pptx |
+| `build/` | maintainer scripts that regenerate everything from the tokens: CSS, backgrounds, renders, style sheet, overview card and the pptx |
 
 ### Canvas and units
 
