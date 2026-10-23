@@ -54,7 +54,7 @@ Another tool, like Reveal.js, Slidev or Figma, uses the same colours, fonts, bac
 
 ## Build by hand
 
-Copy the Google Slides master, GOOGLE_SLIDES_MASTER_URL, or open `template/buidlguidl-devcon8.pptx`. Both hold one layout per slide type and an example slide of each. Duplicate the example you want, replace the text, delete the rest.
+Copy the Google Slides master (https://docs.google.com/presentation/d/136xTO2H0B167bFT280bk2gp4YB4F5S2wskYhJqDga1U/copy opens the copy dialog), or open `template/buidlguidl-devcon8.pptx`. Both hold one layout per slide type and an example slide of each. Duplicate the example you want, replace the text, delete the rest.
 
 ## Devcon rules
 
