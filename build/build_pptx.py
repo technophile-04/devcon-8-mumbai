@@ -35,7 +35,7 @@ HEAD_FONT = "Space Grotesk"  # bold; the font Google Slides has, so the demo mat
 BODY_FONT = "Space Grotesk"
 CODE_FONT = "Space Mono"
 
-INK, PAPER, GREY, LAVENDER, PEACH = "182232", "FFFCFC", "F4F4F4", "D8DCFF", "FFD4B5"
+INK, PAPER, GROUND, LAVENDER, PEACH = "182232", "FFFCFC", "EBECFE", "D8DCFF", "FFD4B5"
 PERIWINKLE, PERIWINKLE_LIGHT, ORANGE, LIME, PALE_LIME = "808CFF", "9FA9FF", "FF6E1D", "B5DC3A", "EAFFA9"
 
 PX = 4762.5     # EMU per canvas px (914400 EMU per in, 10 in for 1920 px)
@@ -64,6 +64,7 @@ QUOTE = (80, 92, HEAD_FONT, True)
 BODY = (48, 62, BODY_FONT, False)
 BODY_BOLD = (48, 62, BODY_FONT, True)   # the HTML uses weight 500; pptx has no 500, so bold
 LABEL = (36, 47, BODY_FONT, False)
+TAG = (36, 47, CODE_FONT, False)        # corner tags, the event line, handles
 CODE = (44, 64, CODE_FONT, False)
 
 NS = nsdecls("p", "a", "r")
@@ -103,13 +104,13 @@ def placeholder_xml(name, ph_type, idx, x, y, w, h, style, prompt, color=INK, bu
         f'<a:prstGeom prst="rect"><a:avLst/></a:prstGeom></p:spPr>{body}</p:sp>')
 
 
-def textbox_xml(name, x, y, w, h, style, text, color=INK):
+def textbox_xml(name, x, y, w, h, style, text, color=INK, align="l"):
     return parse_xml(
         f'<p:sp {NS}><p:nvSpPr><p:cNvPr id="{next_id()}" name="{name}"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>'
         f'<p:spPr><a:xfrm><a:off x="{E(x)}" y="{E(y)}"/><a:ext cx="{E(w)}" cy="{E(h)}"/></a:xfrm>'
         f'<a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>'
         f'<p:txBody><a:bodyPr wrap="square" lIns="0" tIns="0" rIns="0" bIns="0" anchor="t"><a:noAutofit/></a:bodyPr>'
-        f'<a:lstStyle>{para_props(style, color=color)}</a:lstStyle>'
+        f'<a:lstStyle>{para_props(style, color=color).replace('algn="l"', f'algn="{align}"')}</a:lstStyle>'
         f'<a:p><a:r><a:rPr lang="en-US"/><a:t>{escape(text)}</a:t></a:r></a:p></p:txBody></p:sp>')
 
 
@@ -152,11 +153,13 @@ def build_layouts(prs):
     L = {}
     layouts = list(prs.slide_layouts)
 
+    # Cover layouts: the event line is a Space Mono tag top-right on the wordmark's line; the title is anchored to the
+    # bottom of its box so a long title grows upward and never runs into the speaker block fixed below it.
     t = reset_layout(layouts[0], "Title", "cover.png")
-    t.append(textbox_xml("EVENT_LINE", 120, 200, 1000, 47, LABEL, EVENT_LINE))
-    t.append(placeholder_xml("Talk title", "title", 0, 120, 280, 840, 310, COVER_TITLE, "Talk title"))
-    t.append(placeholder_xml("Speaker name", "body", 1, 120, 624, 900, 62, BODY_BOLD, "Speaker name"))
-    t.append(placeholder_xml("Role or handle", "body", 2, 120, 688, 900, 47, LABEL, "Role · @handle"))
+    t.append(textbox_xml("EVENT_LINE", 720, 104, 1080, 47, TAG, EVENT_LINE, align="r"))
+    t.append(placeholder_xml("Talk title", "title", 0, 120, 188, 840, 404, COVER_TITLE, "Talk title", anchor="b"))
+    t.append(placeholder_xml("Speaker name", "body", 1, 120, 648, 840, 62, BODY_BOLD, "Speaker name"))
+    t.append(placeholder_xml("Handle", "body", 2, 120, 712, 840, 47, TAG, "@handle"))
     L["title"] = layouts[0]
 
     t = reset_layout(layouts[1], "Statement", "content.png")
@@ -165,20 +168,20 @@ def build_layouts(prs):
     L["statement"] = layouts[1]
 
     t = reset_layout(layouts[2], "Heading + body", "content.png")
-    t.append(placeholder_xml("Heading", "title", 0, 120, 96, 1680, 176, HEADING, "Heading"))
+    t.append(placeholder_xml("Heading", "title", 0, 120, 120, 1680, 176, HEADING, "Heading"))
     t.append(placeholder_xml("Body", "body", 1, 120, 320, 1680, 664, BODY, "Short lines, at most four", bullets=True, space_before=32))
     L["heading-body"] = layouts[2]
 
     t = reset_layout(layouts[3], "Heading + image", "content.png")
-    t.append(placeholder_xml("Heading", "title", 0, 120, 96, 1680, 96, HEADING, "Heading"))
-    t.append(rect_xml("Image panel", 120, 232, 1680, 752, LAVENDER, 32))
-    t.append(placeholder_xml("Image", "pic", 1, 160, 272, 1600, 672, BODY, ""))
+    t.append(placeholder_xml("Heading", "title", 0, 120, 120, 1680, 96, HEADING, "Heading"))
+    t.append(rect_xml("Image panel", 120, 256, 1680, 728, LAVENDER, 32))
+    t.append(placeholder_xml("Image", "pic", 1, 160, 296, 1600, 648, BODY, ""))
     L["heading-image"] = layouts[3]
 
     t = reset_layout(layouts[4], "Three columns", "content.png")
-    t.append(placeholder_xml("Heading", "title", 0, 120, 96, 1680, 96, HEADING, "Heading"))
+    t.append(placeholder_xml("Heading", "title", 0, 120, 120, 1680, 96, HEADING, "Heading"))
     for i, (x, fill) in enumerate(((120, PERIWINKLE), (696, ORANGE), (1272, LIME))):
-        t.append(rect_xml(f"Card {i + 1}", x, 260, 528, 520, GREY, 32))
+        t.append(rect_xml(f"Card {i + 1}", x, 260, 528, 520, PAPER, 32))
         t.append(rect_xml(f"Pill {i + 1}", x + 48, 308, 96, 64, fill, 32))
         t.append(textbox_xml(f"Pill number {i + 1}", x + 48, 322, 96, 40, LABEL, f"0{i + 1}"))
         t[-1].txBody.find(qn("a:lstStyle")).find(qn("a:lvl1pPr")).set("algn", "ctr")
@@ -192,7 +195,7 @@ def build_layouts(prs):
     L["section"] = layouts[5]
 
     t = reset_layout(layouts[6], "Code", "content-dark.png")
-    t.append(placeholder_xml("Heading", "title", 0, 120, 96, 1680, 96, HEADING, "Heading", color=PAPER))
+    t.append(placeholder_xml("Heading", "title", 0, 120, 120, 1680, 96, HEADING, "Heading", color=PAPER))
     t.append(placeholder_xml("Code label", "body", 1, 120, 256, 1680, 47, LABEL, "terminal", color=PERIWINKLE_LIGHT))
     t.append(placeholder_xml("Code", "body", 2, 120, 320, 1680, 640, CODE, "$ command", color=PAPER))
     L["code"] = layouts[6]
@@ -205,22 +208,22 @@ def build_layouts(prs):
     L["quote"] = layouts[7]
 
     t = reset_layout(layouts[8], "Diagram", "content.png")
-    t.append(placeholder_xml("Heading", "title", 0, 120, 96, 1680, 96, HEADING, "Heading"))
+    t.append(placeholder_xml("Heading", "title", 0, 120, 120, 1680, 96, HEADING, "Heading"))
     L["diagram"] = layouts[8]
 
-    t = reset_layout(layouts[9], "Closing", "cover.png")
-    t.append(textbox_xml("EVENT_LINE", 120, 200, 1000, 47, LABEL, EVENT_LINE))
-    t.append(placeholder_xml("Thanks", "title", 0, 120, 280, 840, 110, COVER_TITLE, "Thanks"))
-    t.append(placeholder_xml("Speaker name", "body", 1, 120, 440, 880, 62, BODY_BOLD, "Speaker name"))
-    t.append(placeholder_xml("Handles", "body", 2, 120, 504, 880, 62, BODY, "@handle on X and GitHub"))
-    t.append(placeholder_xml("Link", "body", 3, 120, 584, 880, 62, BODY, "one-link.com"))
+    t = reset_layout(layouts[9], "Closing", "cover.png")   # Thanks is one line, so the group sits higher to fit the link
+    t.append(textbox_xml("EVENT_LINE", 720, 104, 1080, 47, TAG, EVENT_LINE, align="r"))
+    t.append(placeholder_xml("Thanks", "title", 0, 120, 188, 840, 284, COVER_TITLE, "Thanks", anchor="b"))
+    t.append(placeholder_xml("Speaker name", "body", 1, 120, 528, 840, 62, BODY_BOLD, "Speaker name"))
+    t.append(placeholder_xml("Handles", "body", 2, 120, 592, 840, 47, TAG, "@handle on X and GitHub"))
+    t.append(placeholder_xml("Link", "body", 3, 120, 688, 840, 62, BODY, "one-link.com"))
     L["closing"] = layouts[9]
 
     t = reset_layout(layouts[10], "Up next", "cover.png")
-    t.append(textbox_xml("Up next", 120, 200, 1000, 47, LABEL, "Up next"))
-    t.append(placeholder_xml("Talk title", "title", 0, 120, 280, 840, 310, COVER_TITLE, "Talk title"))
-    t.append(placeholder_xml("Speaker", "body", 1, 120, 624, 900, 62, BODY_BOLD, "Speaker, affiliation"))
-    t.append(placeholder_xml("Time and room", "body", 2, 120, 688, 900, 62, BODY, "13:15 · Room"))
+    t.append(textbox_xml("Up next", 720, 104, 1080, 47, TAG, "Up next", align="r"))
+    t.append(placeholder_xml("Talk title", "title", 0, 120, 188, 840, 404, COVER_TITLE, "Talk title", anchor="b"))
+    t.append(placeholder_xml("Speaker", "body", 1, 120, 648, 840, 62, BODY_BOLD, "Speaker name"))
+    t.append(placeholder_xml("Time and room", "body", 2, 120, 712, 840, 47, TAG, "13:15 · Room"))
     L["up-next"] = layouts[10]
     return L
 
@@ -234,6 +237,13 @@ def fill(slide, idx, text):
     for line in lines[1:]:
         tf.add_paragraph().text = line
     return ph
+
+
+def anchor_bottom(shape):
+    """Cover titles grow upward. The layout already says so; setting it on the slide too means the deck does not
+    depend on Google Slides honouring layout-level anchors."""
+    from pptx.enum.text import MSO_ANCHOR
+    shape.text_frame.vertical_anchor = MSO_ANCHOR.BOTTOM
 
 
 def add_highlight(slide, x, y, w, h, radius):
@@ -322,8 +332,9 @@ def remove_shape(shape):
 def build_slides(prs, L):
     s = prs.slides.add_slide(L["title"])
     fill(s, 0, "Building on Ethereum with agents")
+    anchor_bottom(s.shapes.title)
     fill(s, 1, "Shiv Bhonde")
-    fill(s, 2, "BuidlGuidl · @shivbhonde")
+    fill(s, 2, "@shivbhonde")
 
     s = prs.slides.add_slide(L["statement"])
     fill(s, 1, "An agent can scaffold a dapp. Shipping it is still your job.")
@@ -338,10 +349,10 @@ def build_slides(prs, L):
     s = prs.slides.add_slide(L["heading-image"])
     fill(s, 0, "The debug page is the agent's first UI")
     remove_shape(s.placeholders[1])  # the sample image is placed at its natural aspect instead of cropped to the placeholder
-    pic = s.shapes.add_picture(str(SAMPLE_IMAGE), px(447), px(234), px(1026), px(748))
+    pic = s.shapes.add_picture(str(SAMPLE_IMAGE), px(516), px(296), px(889), px(648))   # 1026x748 scaled to fit 648 tall
     pic._element.spPr.prstGeom.set("prst", "roundRect")
     av = pic._element.spPr.prstGeom.find(qn("a:avLst"))
-    av.append(parse_xml(f'<a:gd {nsdecls("a")} name="adj" fmla="val {round(24 / 748 * 50000)}"/>'))
+    av.append(parse_xml(f'<a:gd {nsdecls("a")} name="adj" fmla="val {round(24 / 648 * 50000)}"/>'))
 
     s = prs.slides.add_slide(L["three-columns"])
     fill(s, 0, "Three places to start")
@@ -386,14 +397,16 @@ def build_slides(prs, L):
 
     s = prs.slides.add_slide(L["closing"])
     fill(s, 0, "Thanks")
+    anchor_bottom(s.shapes.title)
     fill(s, 1, "Shiv Bhonde")
     fill(s, 2, "@shivbhonde on X and GitHub")
     fill(s, 3, "buidlguidl.com")
-    add_highlight(s, 116, 583, 356, 63, 7)
+    add_highlight(s, 116, 687, 356, 63, 7)
 
     s = prs.slides.add_slide(L["up-next"])
     fill(s, 0, "Building on Ethereum with agents")
-    fill(s, 1, "Shiv Bhonde, BuidlGuidl")
+    anchor_bottom(s.shapes.title)
+    fill(s, 1, "Shiv Bhonde")
     fill(s, 2, "13:15 · Workshop 1")
 
 
@@ -404,13 +417,13 @@ def patch_theme(prs):
     xml = theme.blob.decode("utf-8")
     xml = re.sub(r'(<a:majorFont>\s*<a:latin typeface=")[^"]*', rf'\g<1>{HEAD_FONT}', xml)
     xml = re.sub(r'(<a:minorFont>\s*<a:latin typeface=")[^"]*', rf'\g<1>{BODY_FONT}', xml)
-    for tag, val in (("dk1", INK), ("lt1", PAPER), ("dk2", INK), ("lt2", GREY), ("accent1", PERIWINKLE), ("accent2", ORANGE),
+    for tag, val in (("dk1", INK), ("lt1", PAPER), ("dk2", INK), ("lt2", GROUND), ("accent1", PERIWINKLE), ("accent2", ORANGE),
                      ("accent3", LIME), ("accent4", LAVENDER), ("accent5", PEACH), ("accent6", PERIWINKLE_LIGHT)):
         xml = re.sub(rf'<a:{tag}>.*?</a:{tag}>', f'<a:{tag}><a:srgbClr val="{val}"/></a:{tag}>', xml, flags=re.S)
     theme._blob = xml.encode("utf-8")
-    # master ground = paper, so a slide with no layout background still looks right
+    # master ground = the content ground, so a slide with no layout background still looks right
     master = prs.slide_master._element
-    bg = parse_xml(f'<p:bg {NS}><p:bgPr><a:solidFill><a:srgbClr val="{PAPER}"/></a:solidFill><a:effectLst/></p:bgPr></p:bg>')
+    bg = parse_xml(f'<p:bg {NS}><p:bgPr><a:solidFill><a:srgbClr val="{GROUND}"/></a:solidFill><a:effectLst/></p:bgPr></p:bg>')
     old = master.cSld.find(qn("p:bg"))
     if old is not None:
         master.cSld.remove(old)

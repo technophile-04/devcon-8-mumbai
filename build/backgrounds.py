@@ -1,6 +1,6 @@
 """Builds the four 1920x1080 backgrounds from the brand art in build/src.
 
-Run build/logos.sh first (it renders the 4x logo PNGs this script bakes in).
+Run build/logos.sh first (it renders the 4x logo, castle and "Devcon 8" tag PNGs this script bakes in).
 """
 from pathlib import Path
 from PIL import Image, ImageFilter
@@ -13,13 +13,16 @@ W, H = 1920, 1080
 
 INK = (0x18, 0x22, 0x32)
 PAPER = (0xFF, 0xFC, 0xFC)
+GROUND = (0xEB, 0xEC, 0xFE)       # content ground, the buidlguidl.com page background
 SKY_TOP = (0xD0, 0xE5, 0xEF)      # Figma hero gradient, top
 SKY_BOTTOM = (0xEA, 0xF7, 0xD1)   # Figma hero gradient, bottom
 
 # Placement choices (see SKILL.md "Backgrounds")
 HERO_PUSH = 40          # px the hero art is pushed below the canvas bottom
-COVER_LOGO_H = 64       # logo height on cover.png, at the top-left margin
-CONTENT_LOGO_H = 36     # logo height on content backgrounds, in the bottom margin band
+COVER_LOGO_H = 64       # logo height on cover.png and section.png, at the top-left margin
+CASTLE_H = 44           # castle mark height on content backgrounds, top-left of the top margin band
+TAG_H = 44              # line box of the "Devcon 8" tag (36 px Space Mono), top-right of the same band
+MARK_Y = 26             # top of both marks: centred on y 48, the middle of the 96 px band
 CLOUDS_CROP_X = 240     # left edge of the 1920 window taken from the upscaled clouds
 
 
@@ -48,11 +51,12 @@ def cover():
     return bg
 
 
-def content(ground, logo_name):
+def content(ground, colour):
+    """Flat ground with the castle mark at x 120 and the "Devcon 8" tag ending at x 1800, both in the top margin band."""
     bg = Image.new("RGBA", (W, H), ground + (255,))
-    lg = logo(logo_name, CONTENT_LOGO_H)
-    y = H - 96 + (96 - CONTENT_LOGO_H) // 2
-    bg.alpha_composite(lg, (120, y))
+    bg.alpha_composite(logo(f"castle-{colour}", CASTLE_H), (120, MARK_Y))
+    tag = logo(f"tag-{colour}", TAG_H)          # rendered right-aligned, so its right edge is the text's right edge
+    bg.alpha_composite(tag, (1800 - tag.width, MARK_Y))
     return bg
 
 
@@ -76,5 +80,5 @@ if __name__ == "__main__":
     OUT.mkdir(exist_ok=True)
     save(cover(), "cover.png")
     save(section(), "section.png")
-    save(content(PAPER, "buidlguidl-ink"), "content.png")
-    save(content(INK, "buidlguidl-white"), "content-dark.png")
+    save(content(GROUND, "ink"), "content.png")
+    save(content(INK, "white"), "content-dark.png")

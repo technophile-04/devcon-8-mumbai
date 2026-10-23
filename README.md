@@ -1,6 +1,6 @@
 # BuidlGuidl slide kit for Devcon 8
 
-BuidlGuidl runs one day of community-led sessions at Devcon 8 in Mumbai. Each speaker builds slides with their own tool or agent, so this kit makes every deck come out looking like one family. It holds four background images with the logo already in place, the colours and sizes, a reference deck of every layout, and a pptx template whose layouts carry all of that. We lock the frame, you own the content.
+BuidlGuidl runs one day of community-led sessions at Devcon 8 in Mumbai. Each speaker builds slides with their own tool or agent, so this kit makes every deck come out looking like one family. It holds four background images with the BuidlGuidl marks already in place (the wordmark on cover and section slides, a small castle and a "Devcon 8" tag on content slides), the colours and sizes, a reference deck of every layout, and a pptx template whose layouts carry all of that. We lock the frame, you own the content.
 
 ![All eleven layouts](reference/contact-sheet.png)
 
@@ -24,11 +24,11 @@ Devcon wants final slides by Oct 27. Open your Devcon link, the one Devcon email
 
 ## Fonts
 
-Headings are Space Grotesk Bold, body is Space Grotesk, code is Space Mono. Google Slides has all three built in, so there is nothing to install.
+Headings are Space Grotesk Bold, body is Space Grotesk, code and the small corner tags are Space Mono. Google Slides has all three built in, so there is nothing to install.
 
 ## Locked vs yours
 
-Locked: the backgrounds, the logo baked into them, the fonts, the colours, the type scale, the margins, and the title, closing and up-next slides.
+Locked: the backgrounds, the marks baked into them, the fonts, the colours, the type scale, the margins, and the title, closing and up-next slides.
 
 Yours: everything on content slides. Pick from statement, heading and body, heading and image, three columns, section divider, code, quote, and diagram. Put them in any order. One highlighted phrase per slide at most.
 
@@ -43,4 +43,4 @@ Source: https://devcon.org/Devcon8-Speaker-Guidelines-2026.pdf
 
 ## Regenerating the kit
 
-For maintainers. `build/build.sh` rebuilds the logo PNGs, the backgrounds, the slide renders, the contact sheet and the pptx. The reference PNGs are rendered from `reference/deck.html`. It needs Google Chrome, Python 3 with Pillow, and `uv` (which fetches python-pptx). The source art in `build/src/` comes from the buidlguidl.com repo. After a rebuild, upload the new pptx to Google Drive and replace the master.
+For maintainers. `build/build.sh` rebuilds the logo PNGs, the "Devcon 8" tag, the backgrounds, the slide renders, the contact sheet and the pptx. The reference PNGs are rendered from `reference/deck.html`. It needs Google Chrome, Python 3 with Pillow, `uv` (which fetches python-pptx), and network for Google Fonts. The source art in `build/src/` comes from the buidlguidl.com repo; the castle mark in `logos/` is cut from the wordmark. After a rebuild, upload the new pptx to Google Drive and replace the master.
